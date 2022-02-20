@@ -1,8 +1,9 @@
 package com.practice.movidb.di
 
 import dagger.Component
+import dagger.Module
 
-@Component(modules = [NetworkMo])
-interface AppComponent {
+@Module()
+interface AppModule {
 
 }
