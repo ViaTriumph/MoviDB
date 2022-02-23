@@ -1,6 +1,6 @@
-package com.practice.movidb.network.movie.model
+package com.practice.movidb.network.search.model
 
-data class PopularMovies(
+data class SearchResponse(
     val page: Int,
     val results: List<Result>,
     val total_pages: Int,
