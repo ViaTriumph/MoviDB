@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
         MovieViewModelFactory(movieRepository)
     }
 
-    private val adapter = SearchMovieAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         baseComponent = (application as MyApplication).baseComponent
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.searchResultsRcv)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = movieViewModel.adapter
 
     }
 }

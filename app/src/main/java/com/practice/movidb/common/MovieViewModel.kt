@@ -1,28 +1,35 @@
 package com.practice.movidb.common
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.practice.movidb.network.common.BaseNetwork
+import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.network.common.ResultApiModel
 import com.practice.movidb.network.movie.domain.MovieRepository
-import com.practice.movidb.network.movie.service.MovieService
-import com.practice.movidb.network.search.service.SearchService
+import com.practice.movidb.network.movie.domain.model.Result
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(private val movieRepository: MovieRepository): ViewModel() {
 
-    fun fetchPopularMovies(){
+    val adapter = SearchMovieAdapter()
+    var popularMovies = listOf<Result>()
+    init {
+        fetchPopularMovies()
+    }
+
+    private fun fetchPopularMovies(){
         viewModelScope.launch(Dispatchers.IO) {
             movieRepository.getPopularMovies().collect{
                 when(it){
                     is ResultApiModel.Success -> {
-                        Log.d("MOVIE_DB_", "${it.data}")
+                        popularMovies = it.data?.results ?: listOf()
+                        withContext(Dispatchers.Main){
+                            adapter.submitList(popularMovies)
+                        }
                     }
                     is ResultApiModel.Error -> {}
                     is ResultApiModel.Loading -> {}

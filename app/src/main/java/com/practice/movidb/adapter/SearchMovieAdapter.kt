@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.movidb.R
-import com.practice.movidb.network.search.model.Result
+import com.practice.movidb.network.movie.domain.model.Result
 
 class SearchMovieAdapter: ListAdapter<Result, SearchMovieAdapter.SearchMovieViewHolder>(SearchMovieCallback()) {
 
