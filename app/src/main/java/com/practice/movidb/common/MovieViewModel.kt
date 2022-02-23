@@ -1,17 +1,13 @@
 package com.practice.movidb.common
-
-import android.widget.EditText
+gi
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.adapters.SearchViewBindingAdapter.setOnQueryTextListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.textfield.TextInputEditText
 import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.network.common.ResultApiModel
 import com.practice.movidb.network.movie.domain.MovieRepository
 import com.practice.movidb.network.movie.domain.model.Result
-import com.practice.movidb.network.search.data.model.SearchResponse
 import com.practice.movidb.network.search.domain.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
