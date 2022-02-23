@@ -1,4 +1,4 @@
-package com.practice.movidb.network.search.model
+package com.practice.movidb.network.search.domain.model
 
 import com.practice.movidb.network.movie.domain.model.Result
 

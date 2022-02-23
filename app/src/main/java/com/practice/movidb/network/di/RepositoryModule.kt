@@ -4,6 +4,8 @@ import com.practice.movidb.network.common.BaseNetwork
 import com.practice.movidb.network.movie.data.MovieDataRepository
 import com.practice.movidb.network.movie.domain.MovieRepository
 import com.practice.movidb.network.movie.service.MovieService
+import com.practice.movidb.network.search.data.SearchDataRepository
+import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.service.SearchService
 import dagger.Module
 import dagger.Provides
@@ -29,5 +31,11 @@ class RepositoryModule {
     @Singleton
     fun providesMovieRepositoryModule(movieService: MovieService): MovieRepository{
         return MovieDataRepository(movieService)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSearchRepositoryModule(searchService: SearchService): SearchRepository{
+        return SearchDataRepository(searchService)
     }
 }

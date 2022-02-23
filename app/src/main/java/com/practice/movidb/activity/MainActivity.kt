@@ -4,15 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.movidb.MyApplication
 import com.practice.movidb.R
-import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.common.MovieViewModel
 import com.practice.movidb.common.MovieViewModelFactory
 import com.practice.movidb.di.BaseComponent
 import com.practice.movidb.network.movie.domain.MovieRepository
+import com.practice.movidb.network.search.domain.SearchRepository
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -20,9 +21,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var baseComponent: BaseComponent
 
     @Inject lateinit var movieRepository: MovieRepository
+    @Inject lateinit var searchRepository: SearchRepository
 
     private val movieViewModel: MovieViewModel by viewModels<MovieViewModel> {
-        MovieViewModelFactory(movieRepository)
+        MovieViewModelFactory(movieRepository, searchRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.searchResultsRcv)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = movieViewModel.adapter
+
+        val searchView = findViewById<SearchView>(R.id.searchEditText)
+        movieViewModel.addViewOperator(searchView)
 
     }
 }
