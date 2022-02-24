@@ -57,7 +57,7 @@ class MovieViewModel @Inject constructor(
             view.getQueryTextChangeStateFlow()
                 .debounce(300)
                 .filter { query ->
-                    if (query.isEmpty()) {
+                    if (query.isEmpty() && query.length < 2) {
                         withContext(Dispatchers.Main) {
                             adapter.submitList(popularMovies)
                         }
@@ -68,7 +68,9 @@ class MovieViewModel @Inject constructor(
                 }.distinctUntilChanged()
                 .flatMapLatest { query ->
                     fetchSearch(query)
-                }.collect { response ->
+                }
+                .flowOn(Dispatchers.IO)
+                .collect { response ->
                     when (response) {
                         is ResultApiModel.Success -> {
                             adapter.submitList(response.data?.results ?: listOf())
