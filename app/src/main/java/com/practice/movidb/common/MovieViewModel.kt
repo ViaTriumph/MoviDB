@@ -1,9 +1,7 @@
 package com.practice.movidb.common
-gi
+
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.network.common.ResultApiModel
 import com.practice.movidb.network.movie.domain.MovieRepository
@@ -39,6 +37,8 @@ class MovieViewModel @Inject constructor(
                     is ResultApiModel.Success -> {
                         popularMovies = it.data?.results ?: listOf()
                         withContext(Dispatchers.Main) {
+                            val imgPath = popularMovies.firstOrNull()?.poster_path ?: ""
+                            //_sampleUrl.value = if(imgPath.isEmpty()) "https://image.tmdb.org/t/p/original$imgPath" else ""
                             adapter.submitList(popularMovies)
                         }
                     }

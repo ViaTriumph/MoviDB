@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.practice.movidb.common.MovieViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
