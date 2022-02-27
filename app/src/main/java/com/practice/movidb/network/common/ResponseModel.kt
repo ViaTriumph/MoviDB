@@ -1,7 +1,7 @@
 package com.practice.movidb.network.common
 
 
-sealed class ResultApiModel<out T>(
+sealed class ResponseModel<out T>(
     val data: T?,
     val message: String? = null,
     val httpCode: Int = 0,
@@ -17,7 +17,7 @@ sealed class ResultApiModel<out T>(
         val mData: T?,
         val mHttpCode: Int,
         val mType: Type = Type.API
-    ) : ResultApiModel<T>(
+    ) : ResponseModel<T>(
         data = mData,
         httpCode = mHttpCode,
         type = mType
@@ -28,7 +28,7 @@ sealed class ResultApiModel<out T>(
         val mErrorData: Any? = null,
         val mHttpCode: Int,
         val mType: Type = Type.API
-    ) : ResultApiModel<T>(
+    ) : ResponseModel<T>(
         data = null,
         message = mMessage,
         httpCode = mHttpCode,
@@ -36,21 +36,21 @@ sealed class ResultApiModel<out T>(
         errorData = mErrorData
     )
 
-    data class Loading<out T>(val mData: T? = null) : ResultApiModel<T>(
+    data class Loading<out T>(val mData: T? = null) : ResponseModel<T>(
         data = mData
     )
 
-    data class None<out T>(val mData: T? = null) : ResultApiModel<T>(
+    data class None<out T>(val mData: T? = null) : ResponseModel<T>(
         data = mData
     )
 }
 
-fun <T,U> ResultApiModel<T>.toDomain(mapper: Mapper<T,U>): ResultApiModel<U>{
+fun <T,U> ResponseModel<T>.toDomain(mapper: Mapper<T,U>): ResponseModel<U>{
     return when(this){
-        is ResultApiModel.Success -> ResultApiModel.Success(mapper.toDomain(data), httpCode, type)
-        is ResultApiModel.Error -> ResultApiModel.Error(message, errorData, httpCode, type)
-        is ResultApiModel.Loading -> ResultApiModel.Loading(mapper.toDomain(data))
-        is ResultApiModel.None -> ResultApiModel.None(mapper.toDomain(data))
+        is ResponseModel.Success -> ResponseModel.Success(mapper.toDomain(data), httpCode, type)
+        is ResponseModel.Error -> ResponseModel.Error(message, errorData, httpCode, type)
+        is ResponseModel.Loading -> ResponseModel.Loading(mapper.toDomain(data))
+        is ResponseModel.None -> ResponseModel.None(mapper.toDomain(data))
     }
 }
 

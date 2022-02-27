@@ -1,6 +1,5 @@
 package com.practice.movidb.network.common
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -8,22 +7,22 @@ import retrofit2.Response
 
 abstract class BaseRepository {
 
-    protected suspend fun <T> getResultFlow(call: suspend () -> Response<T>): Flow<ResultApiModel<T>> {
-        return getResultFlow(call, ResultApiModel.Type.API)
+    protected suspend fun <T> getResultFlow(call: suspend () -> Response<T>): Flow<ResponseModel<T>> {
+        return getResultFlow(call, ResponseModel.Type.API)
     }
 
     private suspend fun <T> getResultFlow(
         call: suspend () -> Response<T>,
-        type: ResultApiModel.Type = ResultApiModel.Type.API
-    ): Flow<ResultApiModel<T>> {
+        type: ResponseModel.Type = ResponseModel.Type.API
+    ): Flow<ResponseModel<T>> {
         return flow {
-            emit(ResultApiModel.Loading())
+            emit(ResponseModel.Loading())
             val response = call()
             if (response.isSuccessful) {
-                emit(ResultApiModel.Success(response.body(), response.code(), type))
+                emit(ResponseModel.Success(response.body(), response.code(), type))
             } else {
                 emit(
-                    ResultApiModel.Error(
+                    ResponseModel.Error(
                         response.message(),
                         response.errorBody(),
                         response.code(),
@@ -32,7 +31,7 @@ abstract class BaseRepository {
                 )
             }
         }.catch { e ->
-            emit(ResultApiModel.Error(e.toString(), null, -1, type))
+            emit(ResponseModel.Error(e.toString(), null, -1, type))
         }
     }
 }

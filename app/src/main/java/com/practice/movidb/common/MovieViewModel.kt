@@ -3,7 +3,7 @@ package com.practice.movidb.common
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.*
 import com.practice.movidb.adapter.SearchMovieAdapter
-import com.practice.movidb.network.common.ResultApiModel
+import com.practice.movidb.network.common.ResponseModel
 import com.practice.movidb.network.movie.domain.MovieRepository
 import com.practice.movidb.network.movie.domain.model.Result
 import com.practice.movidb.network.search.domain.SearchRepository
@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
-import kotlin.random.Random
 
 class MovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
@@ -35,15 +34,15 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             movieRepository.getPopularMovies().collect { it ->
                 when (it) {
-                    is ResultApiModel.Success -> {
+                    is ResponseModel.Success -> {
                         popularMovies =  it.data?.results ?: listOf()
                         withContext(Dispatchers.Main) {
                             adapter.submitList(popularMovies)
                         }
                     }
-                    is ResultApiModel.Error -> {}
-                    is ResultApiModel.Loading -> {}
-                    is ResultApiModel.None -> {}
+                    is ResponseModel.Error -> {}
+                    is ResponseModel.Loading -> {}
+                    is ResponseModel.None -> {}
                 }
             }
         }
@@ -71,7 +70,7 @@ class MovieViewModel @Inject constructor(
                 .flowOn(Dispatchers.IO)
                 .collect { response ->
                     when (response) {
-                        is ResultApiModel.Success -> {
+                        is ResponseModel.Success -> {
                             adapter.submitList(response.data?.results ?: listOf())
                         }
                         else -> adapter.submitList(popularMovies)
