@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
+import kotlin.random.Random
 
 class MovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
@@ -32,13 +33,11 @@ class MovieViewModel @Inject constructor(
 
     private fun fetchPopularMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            movieRepository.getPopularMovies().collect {
+            movieRepository.getPopularMovies().collect { it ->
                 when (it) {
                     is ResultApiModel.Success -> {
-                        popularMovies = it.data?.results ?: listOf()
+                        popularMovies =  it.data?.results ?: listOf()
                         withContext(Dispatchers.Main) {
-                            val imgPath = popularMovies.firstOrNull()?.poster_path ?: ""
-                            //_sampleUrl.value = if(imgPath.isEmpty()) "https://image.tmdb.org/t/p/original$imgPath" else ""
                             adapter.submitList(popularMovies)
                         }
                     }

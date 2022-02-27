@@ -8,6 +8,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.practice.movidb.MyApplication
 import com.practice.movidb.R
 import com.practice.movidb.common.MovieViewModel
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         initBinding()
 
         val recyclerView = findViewById<RecyclerView>(R.id.searchResultsRcv)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = movieViewModel.adapter
 
         val searchView = findViewById<SearchView>(R.id.searchEditText)
