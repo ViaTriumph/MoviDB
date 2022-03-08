@@ -31,52 +31,52 @@ class MovieViewModel @Inject constructor(
     }
 
     private fun fetchPopularMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            movieRepository.getPopularMovies().collect { it ->
-                when (it) {
-                    is ResponseModel.Success -> {
-                        popularMovies =  it.data?.results ?: listOf()
-                        withContext(Dispatchers.Main) {
-                            adapter.submitList(popularMovies)
-                        }
-                    }
-                    is ResponseModel.Error -> {}
-                    is ResponseModel.Loading -> {}
-                    is ResponseModel.None -> {}
-                }
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            movieRepository.getPopularMovies().collect { it ->
+//                when (it) {
+//                    is ResponseModel.Success -> {
+//                        popularMovies =  it.data?.results ?: listOf()
+//                        withContext(Dispatchers.Main) {
+//                            adapter.submitList(popularMovies)
+//                        }
+//                    }
+//                    is ResponseModel.Error -> {}
+//                    is ResponseModel.Loading -> {}
+//                    is ResponseModel.None -> {}
+//                }
+//            }
+//        }
     }
 
     private suspend fun fetchSearch(query: String) = searchRepository.getSearchResults(query)
 
     private fun addOperators(view: SearchView) {
-        viewModelScope.launch {
-            view.getQueryTextChangeStateFlow()
-                .debounce(300)
-                .filter { query ->
-                    if (query.isEmpty() && query.length < 2) {
-                        withContext(Dispatchers.Main) {
-                            adapter.submitList(popularMovies)
-                        }
-                        return@filter false
-                    } else {
-                        return@filter true
-                    }
-                }.distinctUntilChanged()
-                .flatMapLatest { query ->
-                    fetchSearch(query)
-                }
-                .flowOn(Dispatchers.IO)
-                .collect { response ->
-                    when (response) {
-                        is ResponseModel.Success -> {
-                            adapter.submitList(response.data?.results ?: listOf())
-                        }
-                        else -> adapter.submitList(popularMovies)
-                    }
-                }
-        }
+//        viewModelScope.launch {
+//            view.getQueryTextChangeStateFlow()
+//                .debounce(300)
+//                .filter { query ->
+//                    if (query.isEmpty() && query.length < 2) {
+//                        withContext(Dispatchers.Main) {
+//                            adapter.submitList(popularMovies)
+//                        }
+//                        return@filter false
+//                    } else {
+//                        return@filter true
+//                    }
+//                }.distinctUntilChanged()
+//                .flatMapLatest { query ->
+//                    fetchSearch(query)
+//                }
+//                .flowOn(Dispatchers.IO)
+//                .collect { response ->
+//                    when (response) {
+//                        is ResponseModel.Success -> {
+//                            adapter.submitList(response.data?.results ?: listOf())
+//                        }
+//                        else -> adapter.submitList(popularMovies)
+//                    }
+//                }
+//        }
     }
 }
 

@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(): Flow<ResponseModel<PopularMovies>>
+    suspend fun getPopularMovies(): Flow<Result<PopularMovies>>
 }

@@ -1,11 +1,11 @@
 package com.practice.movidb.network.common
 
+import java.io.IOException
 
-sealed class ResponseModel<out T>(
-    val data: T?,
-    val message: String? = null,
+sealed class ResponseModel<out T: Any, out U: Any>( //Todo explain why Any was used (Hint: To use Nothing, Any is parent of Nothing)
+    val data: T? = null,
     val httpCode: Int = 0,
-    val errorData: Any? = null,
+    val errorData: U? = null,
     val type: Type = Type.API
 ) {
     enum class Type {
@@ -13,44 +13,49 @@ sealed class ResponseModel<out T>(
         CACHE
     }
 
-    data class Success<out T>(
-        val mData: T?,
+    data class Success<T: Any>(
         val mHttpCode: Int,
+        val mData: T?,
         val mType: Type = Type.API
-    ) : ResponseModel<T>(
+    ) : ResponseModel<T, Nothing>(
         data = mData,
         httpCode = mHttpCode,
         type = mType
     )
 
-    data class Error<out T>(
-        val mMessage: String?,
-        val mErrorData: Any? = null,
-        val mHttpCode: Int,
-        val mType: Type = Type.API
-    ) : ResponseModel<T>(
-        data = null,
-        message = mMessage,
-        httpCode = mHttpCode,
+    open class Error<U: Any>(
+        code: Int,
+        body: U?,
+        mType: Type = Type.API
+    ) : ResponseModel<Nothing, U>(
+        httpCode = code,
         type = mType,
-        errorData = mErrorData
+        errorData = body
     )
 
-    data class Loading<out T>(val mData: T? = null) : ResponseModel<T>(
-        data = mData
-    )
+    data class ApiError<U: Any>(val mCode: Int, val mBody: U?): Error<U>(mCode, mBody)
 
-    data class None<out T>(val mData: T? = null) : ResponseModel<T>(
-        data = mData
-    )
+    data class NetworkError<U: Any>(val error: IOException?): Error<U>(0, null)
+
+    data class ClientError<U: Any>(val mCode: Int, val mBody: U?): Error<U>(mCode, mBody)
+
+    data class ServerError<U: Any>(val mCode: Int, val mBody: U?): Error<U>(mCode, mBody)
+
+    data class UnexpectedError<U: Any>(val mCode: Int,val mBody: U?): Error<U>(mCode, mBody)
+
+    data class SessionError<U: Any>(val mBody: U?): Error<U>(401, mBody)
+
+    class Loading: ResponseModel<Nothing, Nothing>()
+
+    class None: ResponseModel<Nothing, Nothing>()
 }
 
-fun <T,U> ResponseModel<T>.toDomain(mapper: Mapper<T,U>): ResponseModel<U>{
+fun <T: Any,U: Any,E: Any> ResponseModel<T, E>.toDomain(mapper: Mapper<T,U>): ResponseModel<U, E>{
     return when(this){
-        is ResponseModel.Success -> ResponseModel.Success(mapper.toDomain(data), httpCode, type)
-        is ResponseModel.Error -> ResponseModel.Error(message, errorData, httpCode, type)
-        is ResponseModel.Loading -> ResponseModel.Loading(mapper.toDomain(data))
-        is ResponseModel.None -> ResponseModel.None(mapper.toDomain(data))
+        is ResponseModel.Success<T> -> ResponseModel.Success(httpCode, mapper.toDomain(data), type)
+        is ResponseModel.Error<E> -> ResponseModel.Error(httpCode, errorData, type)
+        is ResponseModel.Loading -> ResponseModel.Loading()
+        is ResponseModel.None -> ResponseModel.None()
     }
 }
 

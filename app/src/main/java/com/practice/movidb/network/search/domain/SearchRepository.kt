@@ -5,5 +5,5 @@ import com.practice.movidb.network.search.domain.model.SearchResponse
 import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
-    suspend fun getSearchResults(query: String): Flow<ResponseModel<SearchResponse>>
+    suspend fun getSearchResults(query: String): Flow<Result<SearchResponse>>
 }
