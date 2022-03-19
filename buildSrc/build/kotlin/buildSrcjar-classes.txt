@@ -1,0 +1,1 @@
+D:\PRUTHVI\Work\Repos\MoviDB\buildSrc\build\classes\kotlin\main\DefaultConfig.class;D:\PRUTHVI\Work\Repos\MoviDB\buildSrc\build\classes\kotlin\main\Libs.class;D:\PRUTHVI\Work\Repos\MoviDB\buildSrc\build\classes\kotlin\main\Modules.class;D:\PRUTHVI\Work\Repos\MoviDB\buildSrc\build\classes\kotlin\main\Version.class
