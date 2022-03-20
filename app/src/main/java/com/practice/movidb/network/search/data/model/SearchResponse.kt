@@ -18,7 +18,7 @@ data class SearchResponse(
         )
     }
 
-    private fun convertResultsGroup(list: List<Result?>?): List<com.practice.movidb.network.movie.domain.model.Result>{
+    private fun convertResultsGroup(list: List<Result?>?): List<com.practice.movidb.network.movie.domain.model.Movie> {
         return list?.mapNotNull { it?.convertToDomain() } ?: listOf()
     }
 }

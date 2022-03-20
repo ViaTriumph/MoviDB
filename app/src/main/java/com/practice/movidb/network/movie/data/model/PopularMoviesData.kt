@@ -1,8 +1,8 @@
 package com.practice.movidb.network.movie.data.model
 
 import com.practice.movidb.network.common.DataMapperUtil
+import com.practice.movidb.network.movie.domain.model.Movie as DomainResult
 import com.practice.movidb.network.movie.domain.model.PopularMovies as DomainPopularMovies
-import com.practice.movidb.network.movie.domain.model.Result as DomainResult
 
 data class PopularMovies(
     val page: Int? = 0,

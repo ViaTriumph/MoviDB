@@ -1,17 +1,14 @@
 package com.practice.movidb.common
 
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.practice.movidb.adapter.SearchMovieAdapter
-import com.practice.movidb.network.common.ResponseModel
 import com.practice.movidb.network.movie.domain.MovieRepository
-import com.practice.movidb.network.movie.domain.model.Result
+import com.practice.movidb.network.movie.domain.model.Movie
 import com.practice.movidb.network.search.domain.SearchRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.IllegalArgumentException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(
@@ -20,7 +17,7 @@ class MovieViewModel @Inject constructor(
 ) : ViewModel() {
 
     val adapter = SearchMovieAdapter()
-    var popularMovies = listOf<Result>()
+    var popularMovies = listOf<Movie>()
 
     init {
         fetchPopularMovies()

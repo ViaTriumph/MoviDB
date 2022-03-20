@@ -1,43 +1,38 @@
 package com.practice.movidb.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
-import com.practice.movidb.R
-import com.practice.movidb.databinding.RowRecyclerviewItemBinding
-import com.practice.movidb.network.movie.domain.model.Result
+import com.practice.movidb.databinding.RowSearchItemBinding
+import com.practice.movidb.network.movie.domain.model.Movie
 
-class SearchMovieAdapter: ListAdapter<Result, SearchMovieAdapter.SearchMovieViewHolder>(SearchMovieCallback()) {
+class SearchMovieAdapter :
+    ListAdapter<Movie, SearchMovieAdapter.SearchMovieViewHolder>(SearchMovieCallback()) {
 
-    class SearchMovieViewHolder(private val bindingView: RowRecyclerviewItemBinding): RecyclerView.ViewHolder(bindingView.root){
+    class SearchMovieViewHolder(private val bindingView: RowSearchItemBinding) :
+        RecyclerView.ViewHolder(bindingView.root) {
 
-        fun bind(obj: Result){
+        fun bind(obj: Movie) {
             bindingView.obj = obj
             bindingView.executePendingBindings()
         }
 
-        companion object{
-            fun create(parent: ViewGroup): SearchMovieViewHolder{
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val itemView = RowRecyclerviewItemBinding.inflate(layoutInflater, parent, false)
-                return SearchMovieViewHolder(itemView)
+        companion object {
+            fun create(parent: ViewGroup): SearchMovieViewHolder {
+                val binding = RowSearchItemBinding.inflate(LayoutInflater.from(parent.context))
+                return SearchMovieViewHolder(binding)
             }
         }
     }
 
-    class SearchMovieCallback: DiffUtil.ItemCallback<Result>(){
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+    class SearchMovieCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
 
