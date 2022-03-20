@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MoviDB</string>
+
+    <!--    Explore-->
+    <string name="popular_movies">Popular movies</string>
+    <string name="now_playing">Now playing</string>
+
+<!--    Content description-->
+    <string name="cast_image_cd">Image of cast</string>
+    <string name="movie_poster_cd">Movie poster</string>
+    <string name="trailer_button_cd">Trailer button</string>
 </resources>

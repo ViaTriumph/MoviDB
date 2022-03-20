@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/details_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/details_movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:contentDescription="@string/movie_poster_cd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/details_movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/details_movie_poster"
+                app:layout_constraintEnd_toEndOf="@id/details_movie_poster"
+                app:layout_constraintStart_toStartOf="@id/details_movie_poster"
+                tools:text="Captain America" />
+
+            <ImageButton
+                android:id="@+id/details_movie_trailer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/trailer_button_cd"
+                app:layout_constraintBottom_toTopOf="@id/details_movie_name"
+                app:layout_constraintEnd_toEndOf="@id/details_movie_name"
+                app:layout_constraintStart_toStartOf="@id/details_movie_name"
+                tools:src="@drawable/ic_play_filled" />
+
+            <TextView
+                android:id="@+id/details_movie_meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/details_movie_poster"
+                app:layout_constraintStart_toStartOf="@id/details_movie_poster"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_poster"
+                tools:text="2020 * Action, Fantasy * 2h 46m" />
+
+            <TextView
+                android:id="@+id/details_movie_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@id/details_movie_poster"
+                app:layout_constraintStart_toStartOf="@id/details_movie_poster"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_meta"
+                tools:text="**** rating" />
+
+            <TextView
+                android:id="@+id/details_plot_summary_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_rating"
+                tools:text="Plot Summary" />
+
+            <TextView
+                android:id="@+id/details_plot_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_plot_summary_tv"
+                tools:text="Captain Marvel is an extraterrestrial Kree warrior who finds herself caught in the middle of an intergalactic battle between her people and the Skrulls. Living on Earth in 1995, she keeps having recurring memories of another life as U.S. Air Force pilot Carol Danvers. With help from Nick Fury, Captain Marvel tries to uncover the secrets of her past while harnessing her special superpowers to end the war with the evil Skrulls." />
+
+            <TextView
+                android:id="@+id/details_movie_cast_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_plot_summary"
+                tools:text="Cast" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_movie_cast_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_cast_tv"
+                tools:listitem="@layout/row_cast_item" />
+
+            <TextView
+                android:id="@+id/details_movie_review_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_cast_rv"
+                tools:text="Reviews" />
+
+            <TextView
+                android:id="@+id/details_movie_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_review_tv"
+                tools:text="Captain Marvel is an extraterrestrial Kree warrior who finds herself caught in the middle of an intergalactic battle between her people and the Skrulls. Living on Earth in 1995, she keeps having recurring memories of another life as U.S. Air Force pilot Carol Danvers. With help from Nick Fury, Captain Marvel tries to uncover the secrets of her past while harnessing her special superpowers to end the war with the evil Skrulls." />
+
+            <TextView
+                android:id="@+id/details_similar_movie_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_movie_review"
+                tools:text="Similar Movies" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_similar_movie_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/details_similar_movie_tv"
+                tools:listitem="@layout/row_movie" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
