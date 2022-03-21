@@ -2,15 +2,15 @@ package com.practice.movidb.network.movie.data.model
 
 import com.practice.movidb.network.common.DataMapperUtil
 import com.practice.movidb.network.movie.domain.model.Movie as DomainResult
-import com.practice.movidb.network.movie.domain.model.PopularMovies as DomainPopularMovies
+import com.practice.movidb.network.movie.domain.model.MovieList as DomainPopularMovies
 
-data class PopularMovies(
+data class MovieList(
     val page: Int? = 0,
     val results: List<Result?>? = listOf(),
     val total_pages: Int? = 0,
     val total_results: Int? = 0
-){
-    fun convertToDomain(): DomainPopularMovies{
+) {
+    fun convertToDomain(): DomainPopularMovies {
         return DomainPopularMovies(
             page = this.page ?: 0,
             results = convertResultsGroup(this.results),

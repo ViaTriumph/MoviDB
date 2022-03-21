@@ -1,6 +1,6 @@
 package com.practice.movidb.network.movie.domain.model
 
-data class PopularMovies(
+data class MovieList(
     val page: Int,
     val results: List<Movie>,
     val total_pages: Int,

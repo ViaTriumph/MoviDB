@@ -55,6 +55,7 @@ dependencies {
     //TODO remove after module separation
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation Libs.HTTP_LOGGING
 
     implementation "androidx.activity:activity-ktx:$rootProject.activityVersion"
     implementation Libs.FRAGMENT

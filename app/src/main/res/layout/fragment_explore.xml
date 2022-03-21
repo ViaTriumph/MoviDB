@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.practice.movidb.ui.explore.ExploreViewModel" />
+
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -15,10 +19,12 @@
             android:id="@+id/explore_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:padding="10dp">
 
-            <androidx.appcompat.widget.SearchView
+            <Button
                 android:id="@+id/explore_search_view"
+                android:background="@color/design_default_color_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent" />

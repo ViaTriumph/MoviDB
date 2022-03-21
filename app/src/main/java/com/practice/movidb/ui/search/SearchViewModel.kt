@@ -10,7 +10,6 @@ import com.practice.movidb.network.common.Result
 import com.practice.movidb.network.movie.domain.model.Movie
 import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.domain.model.SearchMovieList
-import com.practice.movidb.shared.common.Settings
 import com.practice.movidb.shared.domain.search.SearchUseCase
 import com.practice.movidb.shared.domain.search.SearchUseCaseParams
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
                 }
                 .distinctUntilChanged()
                 .flowOn(Dispatchers.Main)
-                .collectLatest { query ->
+                .collect { query ->
                     fetchSearchResults(query)
                 }
         }
@@ -46,11 +45,12 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
     private fun fetchSearchResults(query: String) {
         val params = getSearchUseCaseParams(query)
         searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            searchUseCase.invoke(params).collect { result ->
-                processSearchResult(result)
+        searchJob =
+            viewModelScope.launch { // Use main dispatcher (it is the default dispatcher in viewmodel)
+                searchUseCase.invoke(params).collect { result ->
+                    processSearchResult(result)
+                }
             }
-        }
     }
 
     private fun processSearchResult(result: BaseResult<SearchMovieList>) {
@@ -64,12 +64,12 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
 
     fun getAdapter() = searchAdapter
 
-    private fun getSearchUseCaseParams(query: String, page: Int = 0) = SearchUseCaseParams(
+    private fun getSearchUseCaseParams(query: String, page: Int = 1) = SearchUseCaseParams(
         query = query,
-        adult = Settings.getAdult(),
-        language = Settings.getLanguage(),
+        adult = null,//Settings.getAdult(),
+        language = null,//Settings.getLanguage(),
         page = page,
-        region = Settings.getRegion(),
+        region = null,//Settings.getRegion(),
         releaseYear = null
     )
 }

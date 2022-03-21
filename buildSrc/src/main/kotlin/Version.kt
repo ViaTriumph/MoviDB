@@ -22,6 +22,8 @@ object Version{
 
     const val RETROFIT = "2.9.0"
 
+    const val HTTP_LOGGING = "4.9.3"
+
     const val DAGGER = "2.41"
 
     // testing

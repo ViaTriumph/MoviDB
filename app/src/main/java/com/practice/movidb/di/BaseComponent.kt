@@ -5,6 +5,7 @@ import com.practice.movidb.activity.MainActivity
 import com.practice.movidb.network.di.NetworkModule
 import com.practice.movidb.network.di.RepositoryModule
 import com.practice.movidb.shared.di.DispatcherModule
+import com.practice.movidb.ui.explore.ExploreFragment
 import com.practice.movidb.ui.search.SearchFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -21,4 +22,5 @@ interface BaseComponent {
 
     fun inject(activity: MainActivity)
     fun inject(frag: SearchFragment)
+    fun inject(frag: ExploreFragment)
 }

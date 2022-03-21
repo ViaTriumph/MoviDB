@@ -36,19 +36,30 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
         }
+        binding.viewModel = searchViewModel
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleBack()
         initSearchObservables()
+
+        binding.searchRecyclerView.adapter = searchViewModel.getAdapter()
     }
 
     private fun initSearchObservables() {
         searchViewModel.observeSearchInput(binding.searchSearchView)
     }
 
+    private fun handleBack() { //TODO move to menu
+        binding.searchBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
     companion object {
+        const val TAG = "SearchFragment"
         fun newInstance() = SearchFragment()
     }
 }

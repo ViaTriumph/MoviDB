@@ -6,6 +6,7 @@ import com.practice.movidb.network.common.ApiEndpoints
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,14 +22,27 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
-        return provideHttpInterceptor(builder).build()
+    fun provideOkHttpClient(
+        builder: OkHttpClient.Builder,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return provideHttpInterceptor(builder)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        return logging
     }
 
     private fun provideHttpInterceptor(okHttpClient: OkHttpClient.Builder): OkHttpClient.Builder {
         return okHttpClient.addInterceptor { chain ->
             val original = chain.request()
-            val originalHttpUrl = original.url()
+            val originalHttpUrl = original.url
             val url = originalHttpUrl
                 .newBuilder()
                 .addQueryParameter("api_key", CommonUtils.API_KEY)

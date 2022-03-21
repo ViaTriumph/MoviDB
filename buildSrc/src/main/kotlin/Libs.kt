@@ -29,6 +29,7 @@ object Libs {
     // Networking
     const val RETROFIT = "com.squareup.retrofit2:retrofit:" + Version.RETROFIT
     const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-gson:" + Version.RETROFIT
+    const val HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:" + Version.HTTP_LOGGING
 
     // Room components
     const val ROOM = "androidx.room:room-ktx:" + Version.ROOM

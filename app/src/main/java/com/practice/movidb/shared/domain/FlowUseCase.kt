@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 /**
  * Executes business logic and emits result as [Result<U>]
  */
-abstract class FlowUseCase<in T, U : Any>(private val coroutineDispatcher: CoroutineDispatcher) {
+abstract class FlowUseCase<in T : Any, U : Any>(private val coroutineDispatcher: CoroutineDispatcher) {
     operator fun invoke(parameters: T): Flow<BaseResult<U>> = execute(parameters)
         .catch { e -> emit(Result.Error(code = -1, body = BaseError(-1, e.toString()))) }
         .flowOn(coroutineDispatcher)
