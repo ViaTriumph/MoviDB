@@ -13,7 +13,6 @@ class SearchMovieAdapter :
 
     class SearchMovieViewHolder(private val bindingView: RowSearchItemBinding) :
         RecyclerView.ViewHolder(bindingView.root) {
-
         fun bind(obj: Movie) {
             bindingView.obj = obj
             bindingView.executePendingBindings()

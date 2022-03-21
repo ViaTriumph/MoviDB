@@ -6,6 +6,7 @@ object Version{
     const val CORE = "1.7.0"
     const val LIFECYCLE = "2.4.0"
     const val ACTIVITY = "1.4.0"
+    const val FRAGMENT = "1.4.1"
 
     const val APPCOMPAT = "1.4.0"
 

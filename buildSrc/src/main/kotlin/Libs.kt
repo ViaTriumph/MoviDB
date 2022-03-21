@@ -9,10 +9,13 @@ object Libs {
     const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:" + Version.LIFECYCLE
     const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:" + Version.LIFECYCLE
     const val LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:" + Version.LIFECYCLE
+    const val FRAGMENT = "androidx.fragment:fragment:" + Version.FRAGMENT
+    const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:" + Version.FRAGMENT
 
     const val APPCOMPAT = "androidx.appcompat:appcompat:1.4.1" + Version.APPCOMPAT
 
-    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:" + Version.CONSTRAINT_LAYOUT
+    const val CONSTRAINT_LAYOUT =
+        "androidx.constraintlayout:constraintlayout:" + Version.CONSTRAINT_LAYOUT
 
     // Testing
     const val JUNIT = "junit:junit:4.+" + Version.JUNIT

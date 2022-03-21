@@ -1,35 +1,31 @@
 package com.practice.movidb.network.di
 
 import com.practice.movidb.common.CommonUtils
+import com.practice.movidb.common.ResultCallAdapterFactory
 import com.practice.movidb.network.common.ApiEndpoints
-import com.practice.movidb.network.common.BaseNetwork
-import com.practice.movidb.network.movie.service.MovieService
-import com.practice.movidb.network.search.service.SearchService
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule{
+class NetworkModule {
 
     @Provides
     @Singleton // TODO change it to custom scope
-    fun providesOkHttpBuilder(): OkHttpClient.Builder{
+    fun providesOkHttpBuilder(): OkHttpClient.Builder {
         return OkHttpClient.Builder()
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient{
+    fun provideOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
         return provideHttpInterceptor(builder).build()
     }
 
-    private fun provideHttpInterceptor(okHttpClient: OkHttpClient.Builder): OkHttpClient.Builder{
+    private fun provideHttpInterceptor(okHttpClient: OkHttpClient.Builder): OkHttpClient.Builder {
         return okHttpClient.addInterceptor { chain ->
             val original = chain.request()
             val originalHttpUrl = original.url()
@@ -48,20 +44,30 @@ class NetworkModule{
 
     @Provides
     @Singleton
-    fun providesGsonConverterFactory(): GsonConverterFactory{
+    fun providesGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit{
+    fun provideResultAdapterFactory(): ResultCallAdapterFactory {
+        return ResultCallAdapterFactory()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+        callAdapter: ResultCallAdapterFactory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(ApiEndpoints.BASE_URL)
             .client(client)
+            .addCallAdapterFactory(callAdapter)
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
-
 
 
 }

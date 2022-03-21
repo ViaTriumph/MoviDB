@@ -7,8 +7,6 @@ import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.network.movie.domain.MovieRepository
 import com.practice.movidb.network.movie.domain.model.Movie
 import com.practice.movidb.network.search.domain.SearchRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(
@@ -45,7 +43,6 @@ class MovieViewModel @Inject constructor(
 //        }
     }
 
-    private suspend fun fetchSearch(query: String) = searchRepository.getSearchResults(query)
 
     private fun addOperators(view: SearchView) {
 //        viewModelScope.launch {
@@ -88,21 +85,4 @@ class MovieViewModelFactory(
         }
         throw IllegalArgumentException("Cannot convert to MovieViewModel")
     }
-}
-
-fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
-    val query = MutableStateFlow("")
-
-    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-        override fun onQueryTextChange(query: String?): Boolean {
-            return true
-        }
-
-        override fun onQueryTextSubmit(newText: String?): Boolean {
-            query.value = newText ?: ""
-            return true
-        }
-    })
-
-    return query
 }

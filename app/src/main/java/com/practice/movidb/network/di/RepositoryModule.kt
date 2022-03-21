@@ -7,8 +7,10 @@ import com.practice.movidb.network.movie.service.MovieService
 import com.practice.movidb.network.search.data.SearchDataRepository
 import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.service.SearchService
+import com.practice.movidb.shared.di.IODispatcher
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -35,7 +37,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesSearchRepositoryModule(searchService: SearchService): SearchRepository{
-        return SearchDataRepository(searchService)
+    fun providesSearchRepositoryModule(
+        searchService: SearchService,
+        @IODispatcher coroutineDispatcher: CoroutineDispatcher
+    ): SearchRepository {
+        return SearchDataRepository(searchService, coroutineDispatcher)
     }
 }

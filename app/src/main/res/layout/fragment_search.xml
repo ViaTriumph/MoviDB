@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.practice.movidb.ui.search.SearchViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,8 +27,11 @@
             android:id="@+id/search_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            adapter="@{viewModel.getAdapter()}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_search_view"
+            app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/row_search_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

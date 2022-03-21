@@ -2,9 +2,9 @@ package com.practice.movidb.common
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.practice.movidb.R
-import kotlin.random.Random
 
 object BaseBindingAdapter {
 
@@ -17,5 +17,14 @@ object BaseBindingAdapter {
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_foreground)
             .into(view)
+    }
+
+    @JvmStatic
+    @BindingAdapter("adapter")
+    fun setRecyclerViewAdapter(
+        view: RecyclerView,
+        adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    ) {
+        view.adapter = adapter
     }
 }

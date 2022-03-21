@@ -2,7 +2,7 @@ package com.practice.movidb.network.common
 
 import java.io.IOException
 
-sealed class ResponseModel<out T: Any, out U: Any>( //Todo explain why Any was used (Hint: To use Nothing, Any is parent of Nothing)
+sealed class Result<out T : Any, out U : Any>( //Todo explain why Any was used (Hint: To use Nothing, Any is parent of Nothing)
     val data: T? = null,
     val httpCode: Int = 0,
     val errorData: U? = null,
@@ -10,24 +10,25 @@ sealed class ResponseModel<out T: Any, out U: Any>( //Todo explain why Any was u
 ) {
     enum class Type {
         API,
-        CACHE
+        CACHE,
+        OTHER
     }
 
-    data class Success<T: Any>(
+    data class Success<T : Any>(
         val mHttpCode: Int,
         val mData: T?,
         val mType: Type = Type.API
-    ) : ResponseModel<T, Nothing>(
+    ) : Result<T, Nothing>(
         data = mData,
         httpCode = mHttpCode,
         type = mType
     )
 
-    open class Error<U: Any>(
+    open class Error<U : Any>(
         code: Int,
         body: U?,
         mType: Type = Type.API
-    ) : ResponseModel<Nothing, U>(
+    ) : Result<Nothing, U>(
         httpCode = code,
         type = mType,
         errorData = body
@@ -45,17 +46,17 @@ sealed class ResponseModel<out T: Any, out U: Any>( //Todo explain why Any was u
 
     data class SessionError<U: Any>(val mBody: U?): Error<U>(401, mBody)
 
-    class Loading: ResponseModel<Nothing, Nothing>()
+    class Loading : Result<Nothing, Nothing>()
 
-    class None: ResponseModel<Nothing, Nothing>()
+    class None : Result<Nothing, Nothing>()
 }
 
-fun <T: Any,U: Any,E: Any> ResponseModel<T, E>.toDomain(mapper: Mapper<T,U>): ResponseModel<U, E>{
-    return when(this){
-        is ResponseModel.Success<T> -> ResponseModel.Success(httpCode, mapper.toDomain(data), type)
-        is ResponseModel.Error<E> -> ResponseModel.Error(httpCode, errorData, type)
-        is ResponseModel.Loading -> ResponseModel.Loading()
-        is ResponseModel.None -> ResponseModel.None()
+fun <T : Any, U : Any, E : Any> Result<T, E>.toDomain(mapper: Mapper<T, U>): Result<U, E> {
+    return when (this) {
+        is Result.Success<T> -> Result.Success(httpCode, mapper.toDomain(data), type)
+        is Result.Error<E> -> Result.Error(httpCode, errorData, type)
+        is Result.Loading -> Result.Loading()
+        is Result.None -> Result.None()
     }
 }
 
