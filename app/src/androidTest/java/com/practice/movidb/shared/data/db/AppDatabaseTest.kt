@@ -11,16 +11,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AppDataBaseTest {
+class AppDatabaseTest {
 
     private lateinit var searchDao: SearchFtsDao
-    private lateinit var db: AppDataBase
+    private lateinit var db: AppDatabase
 
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        db = Room.inMemoryDatabaseBuilder(context, AppDataBase::class.java)
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .allowMainThreadQueries()
             .build()
 
