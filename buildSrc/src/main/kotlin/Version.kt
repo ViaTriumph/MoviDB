@@ -30,7 +30,7 @@ object Version{
     const val JUNIT = "4.13.2"
     const val ESPRESSO = "3.4.0"
     const val ANDROIDX_JUNIT = "1.1.3"
-    const val CORE_TESTING = "2.1.0"
+    const val CORE_TESTING = "1.4.0"
 
 
 

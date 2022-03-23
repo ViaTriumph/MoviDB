@@ -21,6 +21,7 @@ object Libs {
     const val JUNIT = "junit:junit:4.+" + Version.JUNIT
     const val EXT_JUNIT = "androidx..ext:junit:1.1.3" + Version.JUNIT
     const val EXPRESSO_CORE = "androidx..espresso:espresso-core:3.4.0" + Version.JUNIT
+    const val CORE_TEST = "androidx.test:core:" + Version.CORE_TESTING
 
     // Dependency injection
     const val DAGGER = "com.google.dagger:dagger:" + Version.DAGGER
@@ -32,11 +33,14 @@ object Libs {
     const val HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:" + Version.HTTP_LOGGING
 
     // Room components
-    const val ROOM = "androidx.room:room-ktx:" + Version.ROOM
+    const val ROOM = "androidx.room:room-runtime:" + Version.ROOM
+    const val ROOM_KTX = "androidx.room:room-ktx:" + Version.ROOM
     const val ROOM_COMPILER = "androidx.room:room-compiler:" + Version.ROOM
+    const val ROOM_TESTING = "androidx.room:room-testing:" + Version.ROOM
 
     // Kotlin components
-    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:" + Version.COROUTINES
+    const val COROUTINES_CORE =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:" + Version.COROUTINES
     const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-android:" + Version.COROUTINES
 
     // UI

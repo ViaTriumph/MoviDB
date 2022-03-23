@@ -46,6 +46,7 @@ dependencies {
     testImplementation 'junit:junit:4.10'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation Libs.CORE_TEST
 
     implementation "com.google.dagger:dagger:2.41"
     kapt "com.google.dagger:dagger-compiler:2.41"
@@ -65,9 +66,10 @@ dependencies {
     // You'll probably have to update the version numbers in build.gradle (Project)
 
     // Room components
-    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
-    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+    implementation Libs.ROOM
+    implementation Libs.ROOM_KTX
+    kapt Libs.ROOM_COMPILER
+    androidTestImplementation Libs.ROOM_TESTING
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
@@ -85,4 +87,6 @@ dependencies {
 
     //Image
     implementation Libs.GLIDE
+
+    implementation(project(":model"))
 }

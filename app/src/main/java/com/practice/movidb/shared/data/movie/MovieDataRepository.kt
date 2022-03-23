@@ -1,4 +1,4 @@
-package com.practice.movidb.network.movie.data
+package com.practice.movidb.shared.data.movie
 
 import com.practice.movidb.network.common.BaseRepository
 import com.practice.movidb.network.common.Mapper
