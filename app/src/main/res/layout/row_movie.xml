@@ -7,7 +7,7 @@
 
         <variable
             name="obj"
-            type="com.practice.movidb.network.movie.domain.model.Movie" />
+            type="com.practice.movidb.shared.domain.movie.Movie" />
 
     </data>
 
@@ -22,7 +22,7 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:contentDescription="@string/movie_poster_cd"
-            app:loadUrl="@{`https://image.tmdb.org/t/p/w500` + obj.poster_path}"
+            app:loadUrl="@{`https://image.tmdb.org/t/p/w500` + obj.posterPath}"
             tools:src="@drawable/ic_play_filled" />
 
         <TextView

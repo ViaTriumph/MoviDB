@@ -8,9 +8,9 @@ import com.practice.movidb.adapter.MovieAdapter
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.common.Result
 import com.practice.movidb.network.movie.domain.MovieRepository
-import com.practice.movidb.network.movie.domain.model.MovieList
 import com.practice.movidb.shared.domain.explore.NowPlayingUseCase
 import com.practice.movidb.shared.domain.explore.PopularMoviesUseCase
+import com.practice.movidb.shared.domain.movie.MovieList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

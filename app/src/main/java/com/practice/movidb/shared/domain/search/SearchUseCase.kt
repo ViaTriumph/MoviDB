@@ -2,9 +2,9 @@ package com.practice.movidb.shared.domain.search
 
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.search.domain.SearchRepository
-import com.practice.movidb.network.search.domain.model.SearchMovieList
 import com.practice.movidb.shared.di.IODispatcher
 import com.practice.movidb.shared.domain.FlowUseCase
+import com.practice.movidb.shared.domain.movie.MovieList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
@@ -32,8 +32,8 @@ data class SearchUseCaseParams(
 class SearchUseCase(
     private val repository: SearchRepository,
     @IODispatcher dispatcher: CoroutineDispatcher
-) : FlowUseCase<SearchUseCaseParams, SearchMovieList>(dispatcher) {
-    override fun execute(parameters: SearchUseCaseParams): Flow<BaseResult<SearchMovieList>> {
+) : FlowUseCase<SearchUseCaseParams, MovieList>(dispatcher) {
+    override fun execute(parameters: SearchUseCaseParams): Flow<BaseResult<MovieList>> {
         return repository.getSearchResults(parameters.getQueryMap()) // TODO Add filters if necessary
     }
 }

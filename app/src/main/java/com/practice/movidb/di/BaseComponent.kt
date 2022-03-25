@@ -4,6 +4,7 @@ import android.content.Context
 import com.practice.movidb.activity.MainActivity
 import com.practice.movidb.network.di.NetworkModule
 import com.practice.movidb.network.di.RepositoryModule
+import com.practice.movidb.shared.di.DataModule
 import com.practice.movidb.shared.di.DispatcherModule
 import com.practice.movidb.ui.explore.ExploreFragment
 import com.practice.movidb.ui.search.SearchFragment
@@ -12,7 +13,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class, RepositoryModule::class, DispatcherModule::class, AppModule::class])
+@Component(modules = [NetworkModule::class, RepositoryModule::class, DispatcherModule::class, AppModule::class, DataModule::class])
 interface BaseComponent {
 
     @Component.Factory

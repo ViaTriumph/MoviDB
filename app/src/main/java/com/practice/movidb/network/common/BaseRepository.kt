@@ -4,11 +4,11 @@ import com.practice.movidb.common.BaseResult
 
 abstract class BaseRepository {
 
-    protected suspend fun <T : Any> getResultFlow(call: suspend () -> BaseResult<T>): BaseResult<T> {
-        return getResultFlow(call, Result.Type.API)
+    protected suspend fun <T : Any> getResult(call: suspend () -> BaseResult<T>): BaseResult<T> {
+        return getResult(call, Result.Type.API)
     }
 
-    private suspend fun <T : Any> getResultFlow(
+    private suspend fun <T : Any> getResult(
         call: suspend () -> BaseResult<T>,
         type: Result.Type = Result.Type.API
     ): BaseResult<T> {

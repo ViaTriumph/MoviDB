@@ -2,9 +2,9 @@ package com.practice.movidb.shared.domain.explore
 
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.movie.domain.MovieRepository
-import com.practice.movidb.network.movie.domain.model.MovieList
 import com.practice.movidb.shared.di.IODispatcher
 import com.practice.movidb.shared.domain.FlowUseCase
+import com.practice.movidb.shared.domain.movie.MovieList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

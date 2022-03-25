@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.network.movie.domain.MovieRepository
-import com.practice.movidb.network.movie.domain.model.Movie
 import com.practice.movidb.network.search.domain.SearchRepository
+import com.practice.movidb.shared.domain.movie.Movie
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(

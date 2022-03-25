@@ -1,10 +1,15 @@
 package com.practice.movidb.network.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import com.practice.movidb.common.CommonUtils
 import com.practice.movidb.common.ResultCallAdapterFactory
 import com.practice.movidb.network.common.ApiEndpoints
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,13 +28,23 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
+        context: Context,
         builder: OkHttpClient.Builder,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         return provideHttpInterceptor(builder)
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(chuckerInterceptor)
+            .cache(provideCache(context))
             .build()
     }
+
+    private fun provideCache(context: Context): Cache {
+        return Cache(context.cacheDir, provideCacheSize())
+    }
+
+    private fun provideCacheSize() = (20 * 1024 * 1024).toLong() //20MB
 
     @Provides
     @Singleton
@@ -83,5 +98,20 @@ class NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideChuckerInterceptor(context: Context): ChuckerInterceptor {
+        val chuckerCollector = ChuckerCollector(
+            context = context,
+            showNotification = true,
+            retentionPeriod = RetentionManager.Period.ONE_HOUR
+        )
+
+        return ChuckerInterceptor.Builder(context)
+            .collector(chuckerCollector)
+            .redactHeaders("Auth-Token", "Bearer", "User-Session")
+            .alwaysReadResponseBody(true)
+            .build()
+    }
 
 }

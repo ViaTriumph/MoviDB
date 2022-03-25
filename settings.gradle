@@ -1,4 +1,3 @@
-include ':network'
 include ':app'
 rootProject.name = "MoviDB"
 include ':model'

@@ -35,8 +35,15 @@ class ResultCall<T : Any, U : Any>(
                     }
                 }
 
+                //Check if response is from cache or network
+                val type = if (response.raw().cacheResponse != null) {
+                    Result.Type.CACHE
+                } else {
+                    Result.Type.API
+                }
+
                 val model = when (val code = response.code()) {
-                    in 200..299 -> Result.Success<T>(code, body)
+                    in 200..299 -> Result.Success<T>(code, body, type)
                     401 -> Result.SessionError<U>(error)
                     in 402..499 -> Result.ClientError<U>(code, error)
                     in 500..599 -> Result.ServerError<U>(code, error)

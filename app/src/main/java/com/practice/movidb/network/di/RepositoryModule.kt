@@ -7,6 +7,8 @@ import com.practice.movidb.network.search.data.SearchDataRepository
 import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.service.SearchService
 import com.practice.movidb.shared.data.movie.MovieDataRepository
+import com.practice.movidb.shared.data.movie.MovieDataSource
+import com.practice.movidb.shared.data.search.datasource.SearchDataSource
 import com.practice.movidb.shared.di.IODispatcher
 import dagger.Module
 import dagger.Provides
@@ -31,16 +33,21 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesMovieRepositoryModule(movieService: MovieService): MovieRepository{
-        return MovieDataRepository(movieService)
+    fun providesMovieRepositoryModule(
+        movieService: MovieService,
+        @IODispatcher coroutineDispatcher: CoroutineDispatcher,
+        movieDataSource: MovieDataSource
+    ): MovieRepository {
+        return MovieDataRepository(movieService, coroutineDispatcher, movieDataSource)
     }
 
     @Provides
     @Singleton
     fun providesSearchRepositoryModule(
         searchService: SearchService,
-        @IODispatcher coroutineDispatcher: CoroutineDispatcher
+        @IODispatcher coroutineDispatcher: CoroutineDispatcher,
+        searchDataSource: SearchDataSource
     ): SearchRepository {
-        return SearchDataRepository(searchService, coroutineDispatcher)
+        return SearchDataRepository(searchService, coroutineDispatcher, searchDataSource)
     }
 }

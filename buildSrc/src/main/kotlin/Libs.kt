@@ -30,7 +30,10 @@ object Libs {
     // Networking
     const val RETROFIT = "com.squareup.retrofit2:retrofit:" + Version.RETROFIT
     const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-gson:" + Version.RETROFIT
+    const val OKHTTP = "com.squareup.okhttp3:okhttp:" + Version.OKHTTP
     const val HTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:" + Version.HTTP_LOGGING
+    const val CHUCKER = "com.github.chuckerteam.chucker:library:" + Version.CHUCKER
+    const val CHUCKER_NO_OP = "com.github.chuckerteam.chucker:library-no-op:" + Version.CHUCKER
 
     // Room components
     const val ROOM = "androidx.room:room-runtime:" + Version.ROOM

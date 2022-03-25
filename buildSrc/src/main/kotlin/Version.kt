@@ -21,8 +21,9 @@ object Version{
     const val GLIDE = "4.11.0"
 
     const val RETROFIT = "2.9.0"
-
     const val HTTP_LOGGING = "4.9.3"
+    const val CHUCKER = "3.5.2"
+    const val OKHTTP = "4.9.3"
 
     const val DAGGER = "2.41"
 

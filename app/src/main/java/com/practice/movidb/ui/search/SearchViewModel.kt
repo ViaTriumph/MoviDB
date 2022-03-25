@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.practice.movidb.adapter.SearchMovieAdapter
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.common.Result
-import com.practice.movidb.network.movie.domain.model.Movie
 import com.practice.movidb.network.search.domain.SearchRepository
-import com.practice.movidb.network.search.domain.model.SearchMovieList
+import com.practice.movidb.shared.domain.movie.Movie
+import com.practice.movidb.shared.domain.movie.MovieList
 import com.practice.movidb.shared.domain.search.SearchUseCase
 import com.practice.movidb.shared.domain.search.SearchUseCaseParams
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,7 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
             }
     }
 
-    private fun processSearchResult(result: BaseResult<SearchMovieList>) {
+    private fun processSearchResult(result: BaseResult<MovieList>) {
         when (result) {
             is Result.Success -> {
                 val list: List<Movie> = result.data?.results ?: emptyList()

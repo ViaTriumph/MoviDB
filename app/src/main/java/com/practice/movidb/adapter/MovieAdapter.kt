@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.movidb.databinding.RowMovieBinding
-import com.practice.movidb.network.movie.domain.model.Movie
+import com.practice.movidb.shared.domain.movie.Movie
 
 class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 

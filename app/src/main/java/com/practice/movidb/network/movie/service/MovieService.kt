@@ -2,7 +2,7 @@ package com.practice.movidb.network.movie.service
 
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.common.ApiEndpoints
-import com.practice.movidb.network.movie.data.model.MovieList
+import com.practice.movidb.shared.data.movie.MovieList
 import retrofit2.http.GET
 
 interface MovieService {

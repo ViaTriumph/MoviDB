@@ -1,8 +1,10 @@
 package com.practice.movidb.shared.data.search.datasource
 
-import com.practice.model.movie.Movie
+import com.practice.movidb.shared.common.DataMapperUtil
 import com.practice.movidb.shared.data.db.AppDatabase
+import com.practice.movidb.shared.data.db.GenreList
 import com.practice.movidb.shared.data.db.MovieEntity
+import com.practice.movidb.shared.data.movie.Movie
 import javax.inject.Inject
 
 interface SearchDataSource {
@@ -17,7 +19,7 @@ class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatab
         return appDatabase
             .searchFtsDao()
             .getSearchList()
-            .map { it.convertToDomainModel() }
+            .map { it.convertToDataModel() }
     }
 
     override fun storeMovieList(list: List<Movie>) {
@@ -25,7 +27,7 @@ class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatab
             MovieEntity(
                 rowId = 0,
                 adult = it.adult,
-                genreIds = it.genreIds,
+                genreIds = GenreList(DataMapperUtil.convertToNonNull(it.genreIds)),
                 id = it.id,
                 overview = it.overview,
                 posterPath = it.posterPath,
@@ -33,6 +35,8 @@ class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatab
                 title = it.title,
                 voteAverage = it.voteAverage,
                 voteCount = it.voteCount,
+                popularity = it.popularity,
+                timeStamp = System.currentTimeMillis()
             )
         }
         appDatabase.searchFtsDao().insertAll(movieEntityList)
