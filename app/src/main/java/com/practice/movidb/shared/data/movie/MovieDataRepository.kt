@@ -1,6 +1,5 @@
 package com.practice.movidb.shared.data.movie
 
-import android.util.Log
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.common.BaseRepository
 import com.practice.movidb.network.common.Mapper
@@ -29,7 +28,6 @@ internal class MovieDataRepository @Inject constructor(
 
 
         val movieList = movieDataSource.getPopularMovies()
-        Log.d("REPO", "LIST $movieList")
         val result: BaseResult<DataMovieList> = if (!movieList.isNullOrEmpty()) {
             val cachedData = DataMovieList(
                 results = movieList
@@ -45,7 +43,6 @@ internal class MovieDataRepository @Inject constructor(
                 movieService.getPopularMovies()
             }
 
-            Log.d("REPO", "API RESPONSE ${apiResponse.data?.results}")
             if (apiResponse is Result.Success) {
                 val list = DataMapperUtil.convertToNonNull(apiResponse.data?.results)
                 movieDataSource.storeMovies(list)
@@ -55,7 +52,6 @@ internal class MovieDataRepository @Inject constructor(
                     results = movieDataSource.getPopularMovies()
                 )
 
-                Log.d("REPO", "DB RESPONSE ${cachedData.results}")
 
                 Result.Success(
                     200,
@@ -80,7 +76,6 @@ internal class MovieDataRepository @Inject constructor(
 
 
         val movieList = movieDataSource.getNowPlayingMovies()
-        Log.d("REPO", "LIST $movieList")
         val result: BaseResult<DataMovieList> = if (!movieList.isNullOrEmpty()) {
             val cachedData = DataMovieList(
                 results = movieList
@@ -96,7 +91,6 @@ internal class MovieDataRepository @Inject constructor(
                 movieService.getNowPlayingMovies()
             }
 
-            Log.d("REPO", "API RESPONSE ${apiResponse.data?.results}")
             if (apiResponse is Result.Success) {
                 val list = DataMapperUtil.convertToNonNull(apiResponse.data?.results)
                 movieDataSource.storeMovies(list)
@@ -105,8 +99,6 @@ internal class MovieDataRepository @Inject constructor(
                 val cachedData = DataMovieList(
                     results = movieDataSource.getNowPlayingMovies()
                 )
-
-                Log.d("REPO", "DB RESPONSE ${cachedData.results}")
 
                 Result.Success(
                     200,

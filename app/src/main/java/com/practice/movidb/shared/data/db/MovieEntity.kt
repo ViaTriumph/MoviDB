@@ -1,19 +1,14 @@
 package com.practice.movidb.shared.data.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
+import androidx.room.*
 import com.practice.movidb.shared.data.movie.Movie
 
-
-//TODO add FTS4
-@Entity(tableName = "movie")
+@Entity(tableName = "movie", indices = [Index(value = ["movie_id"], unique = true)])
 data class MovieEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "row_id")
-    val rowId: Int, //TODO remove after fts4 addition
+    val rowId: Int,
 
     @ColumnInfo(name = "adult")
     val adult: Boolean?,
@@ -77,7 +72,11 @@ data class GenreList(val list: List<Int>)
 class GenreListConverter {
     @TypeConverter
     fun stringToList(value: String): GenreList {
-        return GenreList(value.split(",").map { it.toInt() })
+        return try {
+            GenreList(value.split(",").map { it.toInt() })
+        } catch (e: NumberFormatException) {
+            GenreList(emptyList())
+        }
     }
 
     @TypeConverter

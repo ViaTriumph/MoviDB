@@ -1,6 +1,5 @@
 package com.practice.movidb.ui.explore
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -49,7 +48,6 @@ class ExploreViewModel @Inject constructor(private val repository: MovieReposito
     private fun processPopularMovies(result: BaseResult<MovieList>) {
         when (result) {
             is Result.Success -> {
-                Log.d("EXPLORE_LOG", "${result.mData?.results}")
                 popularMovieAdapter.submitList(result.mData?.results) //TODO improve
             }
         }
@@ -58,7 +56,6 @@ class ExploreViewModel @Inject constructor(private val repository: MovieReposito
     private fun processNowPlayingMovies(result: BaseResult<MovieList>) {
         when (result) {
             is Result.Success -> {
-                Log.d("EXPLORE_LOG", "${result.mData?.results}")
                 nowPlayingAdapter.submitList(result.mData?.results) //TODO improve
             }
         }

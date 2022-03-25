@@ -2,9 +2,10 @@ package com.practice.movidb.shared.data.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "popular_movies")
+@Entity(tableName = "popular_movies", indices = [Index(value = ["movie_id"], unique = true)])
 data class PopularMoviesEntity(
 
     @PrimaryKey(autoGenerate = true)

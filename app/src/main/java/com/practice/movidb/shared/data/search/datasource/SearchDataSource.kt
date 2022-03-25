@@ -8,17 +8,17 @@ import com.practice.movidb.shared.data.movie.Movie
 import javax.inject.Inject
 
 interface SearchDataSource {
-    fun getMovieList(): List<Movie>
+    fun getMovieList(query: String): List<Movie>
 
     fun storeMovieList(list: List<Movie>)
 }
 
 class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatabase) :
     SearchDataSource {
-    override fun getMovieList(): List<Movie> {
+    override fun getMovieList(query: String): List<Movie> {
         return appDatabase
             .searchFtsDao()
-            .getSearchList()
+            .getSearchList(query)
             .map { it.convertToDataModel() }
     }
 
@@ -39,7 +39,7 @@ class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatab
                 timeStamp = System.currentTimeMillis()
             )
         }
-        appDatabase.searchFtsDao().insertAll(movieEntityList)
+        appDatabase.movieDao().insertAll(movieEntityList)
     }
 
 }

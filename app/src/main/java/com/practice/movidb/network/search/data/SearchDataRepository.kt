@@ -1,5 +1,6 @@
 package com.practice.movidb.network.search.data
 
+import android.util.Log
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.network.common.BaseRepository
 import com.practice.movidb.network.common.Mapper
@@ -11,6 +12,7 @@ import com.practice.movidb.shared.common.DataMapperUtil
 import com.practice.movidb.shared.data.search.datasource.SearchDataSource
 import com.practice.movidb.shared.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -25,13 +27,15 @@ internal class SearchDataRepository @Inject constructor(
 
     override fun getSearchResults(queryOptions: Map<String, String>) = flow {
         emit(Result.Loading())
+        val query = queryOptions["query"] ?: return@flow
+        var movieList = dataSource.getMovieList(query)
+        movieList = if (movieList.size > 10) movieList else emptyList()
 
-        //todo pagination
-        val movieList = dataSource.getMovieList()
         val result: BaseResult<DataMovieList> = if (!movieList.isNullOrEmpty()) {
             val cachedData = DataMovieList(
                 results = movieList
             )
+
             Result.Success(
                 200,
                 cachedData,
@@ -44,11 +48,14 @@ internal class SearchDataRepository @Inject constructor(
             }
 
             if (apiResponse is Result.Success) {
-                val list = apiResponse.data?.results
+                var list = apiResponse.data?.results
                 dataSource.storeMovieList(DataMapperUtil.convertToNonNull(list))
 
+                list = dataSource.getMovieList(query)
+                list = if (list.isEmpty()) apiResponse.data?.results else list
+
                 val cachedData = DataMovieList(
-                    results = dataSource.getMovieList()
+                    results = list
                 )
 
                 Result.Success(
@@ -56,6 +63,7 @@ internal class SearchDataRepository @Inject constructor(
                     cachedData,
                     Result.Type.CACHE
                 )
+
 
             } else {
                 apiResponse
@@ -69,5 +77,7 @@ internal class SearchDataRepository @Inject constructor(
                 }
             })
         )
-    }.flowOn(coroutineDispatcher)
+    }
+        .catch { e -> Log.e("REPO", e.toString()) }
+        .flowOn(coroutineDispatcher)
 }

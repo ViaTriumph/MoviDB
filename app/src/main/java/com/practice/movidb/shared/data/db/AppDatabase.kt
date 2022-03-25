@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [MovieEntity::class, PopularMoviesEntity::class, NowPlayingMovesEntity::class],
+    entities = [MovieEntity::class, PopularMoviesEntity::class, NowPlayingMovesEntity::class, MovieFtsEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -21,27 +22,22 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         const val TAG = "app_data_base"
 
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
+        //TODO if db is injected into graph with single instance , why volatile?
 
-        fun getInstance(context: Context): AppDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        TAG
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-
-                    INSTANCE = instance
-                }
-
-                return instance
-            }
+        fun createDb(context: Context): AppDatabase {
+            return Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                TAG
+            )
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        db.execSQL("INSERT INTO movie_fts(movie_fts) VALUES ('rebuild')") //TODO what does this exactly do?
+                    }
+                })
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }

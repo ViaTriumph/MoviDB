@@ -16,7 +16,7 @@ class DataModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
-        return AppDatabase.getInstance(context)
+        return AppDatabase.createDb(context)
     }
 
     @Provides
