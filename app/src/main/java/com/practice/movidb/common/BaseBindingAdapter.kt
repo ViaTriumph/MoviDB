@@ -14,8 +14,9 @@ object BaseBindingAdapter {
         if (url.isEmpty()) return
         Glide.with(view.context)
             .load(url)
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_image_placeholder)
+            .fallback(R.drawable.ic_image_not_found)
+            .error(R.drawable.ic_image_not_found)
             .into(view)
     }
 

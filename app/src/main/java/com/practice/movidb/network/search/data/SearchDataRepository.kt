@@ -28,7 +28,7 @@ internal class SearchDataRepository @Inject constructor(
     override fun getSearchResults(queryOptions: Map<String, String>) = flow {
         emit(Result.Loading())
         val query = queryOptions["query"] ?: return@flow
-        var movieList = dataSource.getMovieList(query)
+        var movieList = dataSource.getMovieList(sanitizeSearchQuery(query))
         movieList = if (movieList.size > 10) movieList else emptyList()
 
         val result: BaseResult<DataMovieList> = if (!movieList.isNullOrEmpty()) {
@@ -51,7 +51,7 @@ internal class SearchDataRepository @Inject constructor(
                 var list = apiResponse.data?.results
                 dataSource.storeMovieList(DataMapperUtil.convertToNonNull(list))
 
-                list = dataSource.getMovieList(query)
+                list = dataSource.getMovieList(sanitizeSearchQuery(query))
                 list = if (list.isEmpty()) apiResponse.data?.results else list
 
                 val cachedData = DataMovieList(
@@ -80,4 +80,10 @@ internal class SearchDataRepository @Inject constructor(
     }
         .catch { e -> Log.e("REPO", e.toString()) }
         .flowOn(coroutineDispatcher)
+}
+
+
+private fun sanitizeSearchQuery(query: String): String {
+    val modifiedQuery = query.replace(Regex.fromLiteral("\""), "\"\"")
+    return String.format("*%s*", modifiedQuery)
 }

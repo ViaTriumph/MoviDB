@@ -34,13 +34,6 @@ class SearchUseCase(
     @IODispatcher dispatcher: CoroutineDispatcher
 ) : FlowUseCase<SearchUseCaseParams, MovieList>(dispatcher) {
     override fun execute(parameters: SearchUseCaseParams): Flow<BaseResult<MovieList>> {
-        val sanitizedParams = parameters.copy(query = sanitizeSearchQuery(parameters.query))
-
-        return repository.getSearchResults(sanitizedParams.getQueryMap()) // TODO Add filters if necessary
-    }
-
-    private fun sanitizeSearchQuery(query: String): String {
-        val modifiedQuery = query.replace(Regex.fromLiteral("\""), "\"\"")
-        return String.format("*%s*", modifiedQuery)
+        return repository.getSearchResults(parameters.getQueryMap()) // TODO Add filters if necessary
     }
 }
