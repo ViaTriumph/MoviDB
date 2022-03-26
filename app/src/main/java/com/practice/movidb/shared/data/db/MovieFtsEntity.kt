@@ -13,7 +13,7 @@ data class MovieFtsEntity(
     @ColumnInfo(name = "rowid")
     val rowId: Int?,
 
-    @ColumnInfo(name = "movie_id")
+    @ColumnInfo(name = "id")
     val id: Int?,
 
     @ColumnInfo(name = "title")

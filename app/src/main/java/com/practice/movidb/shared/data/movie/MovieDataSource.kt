@@ -17,6 +17,10 @@ interface MovieDataSource {
     fun evictNowPlayingMovies()
 
     fun storeMovies(list: List<Movie>)
+
+    fun getSimilarMovies(id: Int): List<Movie>
+
+    fun insertSimilarMovies(id: Int, list: List<Movie>)
 }
 
 class MovieDataSourceImpl(private val appDatabase: AppDatabase) : MovieDataSource {
@@ -60,7 +64,7 @@ class MovieDataSourceImpl(private val appDatabase: AppDatabase) : MovieDataSourc
             MovieEntity(
                 rowId = 0,
                 adult = it.adult,
-                genreIds = GenreList(DataMapperUtil.convertToNonNull(it.genreIds)),
+                genreIds = IntList(DataMapperUtil.convertToNonNull(it.genreIds)),
                 id = it.id,
                 overview = it.overview,
                 posterPath = it.posterPath,
@@ -73,5 +77,25 @@ class MovieDataSourceImpl(private val appDatabase: AppDatabase) : MovieDataSourc
             )
         }
         appDatabase.movieDao().insertAll(entityList)
+    }
+
+    override fun getSimilarMovies(id: Int): List<Movie> {
+        val dao = appDatabase.movieDao()
+        val similarEntity = dao.getSimilarMovieIds(id)
+        return dao.getSimilarMovies(
+            similarEntity.similarMovies?.list ?: emptyList()
+        )
+            .map { it.convertToDataModel() }
+
+    }
+
+    override fun insertSimilarMovies(id: Int, list: List<Movie>) {
+        val entity = SimilarMovieEntity(
+            0,
+            id,
+            IntList(list.mapNotNull { it.id }),
+            System.currentTimeMillis()
+        )
+        appDatabase.movieDao().insert(entity)
     }
 }

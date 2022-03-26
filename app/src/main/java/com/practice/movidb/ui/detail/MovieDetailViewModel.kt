@@ -9,6 +9,10 @@ import com.practice.movidb.network.common.Result
 import com.practice.movidb.shared.domain.details.DetailsUseCase
 import com.practice.movidb.shared.domain.details.MovieDetail
 import com.practice.movidb.shared.domain.details.MovieDetailsRepository
+import com.practice.movidb.shared.domain.details.SimilarMoviesUseCase
+import com.practice.movidb.shared.domain.movie.Movie
+import com.practice.movidb.shared.domain.movie.MovieList
+import com.practice.movidb.ui.explore.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +21,14 @@ class MovieDetailViewModel @Inject constructor(private val repository: MovieDeta
     BaseViewModel() {
 
     val detailModel = MovieDetailModel()
+    val similarMovieModel = MovieModel(this)
 
     private val detailsUseCase = DetailsUseCase(
+        Dispatchers.IO,
+        repository
+    )
+
+    private val similarMoviesUseCase = SimilarMoviesUseCase(
         Dispatchers.IO,
         repository
     )
@@ -26,12 +36,15 @@ class MovieDetailViewModel @Inject constructor(private val repository: MovieDeta
     fun init(id: Int) {
         viewModelScope.launch {
             detailsUseCase.invoke(id).collect { result ->
-                processResponse(result)
+                processDetailsResponse(result)
+            }
+            similarMoviesUseCase.invoke(id).collect { result ->
+                processSimilarMoviesResponse(result)
             }
         }
     }
 
-    private fun processResponse(result: BaseResult<MovieDetail>) {
+    private fun processDetailsResponse(result: BaseResult<MovieDetail>) {
         when (result) {
             is Result.Success -> {
                 result.data?.let { processDetails(it) }
@@ -39,8 +52,20 @@ class MovieDetailViewModel @Inject constructor(private val repository: MovieDeta
         }
     }
 
+    private fun processSimilarMoviesResponse(result: BaseResult<MovieList>) {
+        when (result) {
+            is Result.Success -> {
+                processSimilarMovies(result.data?.results)
+            }
+        }
+    }
+
     private fun processDetails(details: MovieDetail) {
         detailModel.processMovieDetails(details)
+    }
+
+    private fun processSimilarMovies(list: List<Movie>?) {
+        similarMovieModel.populateList(list)
     }
 }
 

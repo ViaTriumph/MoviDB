@@ -8,6 +8,7 @@ object ApiEndpoints {
     const val NOW_PLAYING_MOVIES = "movie/now_playing"
 
     const val MOVIE_DETAILS = "movie/{movie_id}"
+    const val SIMILAR_MOVIES = "movie/{movie_id}/similar"
 
     const val SEARCH_MOVIE = "search/movie"
 }

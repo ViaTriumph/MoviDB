@@ -12,11 +12,6 @@ abstract class BaseRepository {
         call: suspend () -> BaseResult<T>,
         type: Result.Type = Result.Type.API
     ): BaseResult<T> {
-        return try {
-            val response = call()
-            response
-        } catch (e: Exception) {
-            Result.Error(code = -1, BaseError(code = -1, message = e.toString()), type)
-        }
+        return call()
     }
 }

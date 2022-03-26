@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.databinding.FragmentDetailsBinding
 import com.practice.movidb.shared.domain.details.MovieDetailsRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MovieDetailFragment : Fragment() {
@@ -44,10 +46,27 @@ class MovieDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initBindings()
         initData()
+        initComponentObserver()
     }
 
     private fun initBindings() {
         binding.viewModel = detailVM
+
+        binding.detailsSimilarMovieRv.adapter = detailVM.similarMovieModel.adapter
+    }
+
+    private fun initComponentObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            detailVM.componentFlow.collect { component ->
+                when (component.name) {
+                    TAG -> {
+                        if (component.data is Int) {
+                            detailVM.init(component.data)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun initData() {

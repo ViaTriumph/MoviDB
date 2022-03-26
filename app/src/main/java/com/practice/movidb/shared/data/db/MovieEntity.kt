@@ -3,7 +3,7 @@ package com.practice.movidb.shared.data.db
 import androidx.room.*
 import com.practice.movidb.shared.data.movie.Movie
 
-@Entity(tableName = "movie", indices = [Index(value = ["movie_id"], unique = true)])
+@Entity(tableName = "movie", indices = [Index(value = ["id"], unique = true)])
 data class MovieEntity(
 
     @PrimaryKey(autoGenerate = true)
@@ -14,9 +14,9 @@ data class MovieEntity(
     val adult: Boolean?,
 
     @ColumnInfo(name = "genre_ids")
-    val genreIds: GenreList?,
+    val genreIds: IntList?,
 
-    @ColumnInfo(name = "movie_id")
+    @ColumnInfo(name = "id")
     val id: Int?,
 
     @ColumnInfo(name = "overview")
@@ -63,7 +63,7 @@ data class MovieEntity(
     }
 }
 
-data class GenreList(val list: List<Int>)
+data class IntList(val list: List<Int>)
 
 /**
  * Type converter for List<Int> as Room does not take List<Int> as entry
@@ -71,16 +71,16 @@ data class GenreList(val list: List<Int>)
  */
 class GenreListConverter {
     @TypeConverter
-    fun stringToList(value: String): GenreList {
+    fun stringToList(value: String): IntList {
         return try {
-            GenreList(value.split(",").map { it.toInt() })
+            IntList(value.split(",").map { it.toInt() })
         } catch (e: NumberFormatException) {
-            GenreList(emptyList())
+            IntList(emptyList())
         }
     }
 
     @TypeConverter
-    fun listToString(list: GenreList): String {
+    fun listToString(list: IntList): String {
         return list.list.joinToString(",")
     }
 }

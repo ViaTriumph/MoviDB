@@ -51,7 +51,7 @@ internal class SearchDataRepository @Inject constructor(
                 dataSource.storeMovieList(DataMapperUtil.convertToNonNull(list))
 
                 list = dataSource.getMovieList(sanitizeSearchQuery(query))
-                list = if (list.isEmpty()) apiResponse.data?.results else list
+                list = if (list.isNullOrEmpty()) apiResponse.data?.results else list
 
                 val cachedData = DataMovieList(
                     results = list

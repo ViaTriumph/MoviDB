@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.movidb.databinding.RowMovieBinding
-import com.practice.movidb.shared.domain.movie.Movie
+import com.practice.movidb.ui.explore.MovieItemUI
 import com.practice.movidb.ui.explore.MovieModel
 
 class MovieAdapter(private val model: MovieModel) :
-    ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
+    ListAdapter<MovieItemUI, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 
     class MovieViewHolder(private val bindingView: RowMovieBinding) :
         RecyclerView.ViewHolder(bindingView.root) {
-        fun bind(obj: Movie, model: MovieModel) {
+        fun bind(obj: MovieItemUI, model: MovieModel) {
             bindingView.obj = obj
             bindingView.model = model
             bindingView.executePendingBindings()
@@ -28,12 +28,12 @@ class MovieAdapter(private val model: MovieModel) :
         }
     }
 
-    class MovieCallback : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+    class MovieCallback : DiffUtil.ItemCallback<MovieItemUI>() {
+        override fun areItemsTheSame(oldItem: MovieItemUI, newItem: MovieItemUI): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: MovieItemUI, newItem: MovieItemUI): Boolean {
             return oldItem.id == newItem.id
         }
 

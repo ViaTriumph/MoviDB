@@ -11,7 +11,7 @@ interface NowPlayingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) // update now playing
     fun storeNowPlayingMovies(list: List<NowPlayingMovesEntity>)
 
-    @Query("SELECT DISTINCT * FROM now_playing INNER JOIN movie ON now_playing.movie_id = movie.movie_id ORDER BY movie.popularity")
+    @Query("SELECT DISTINCT * FROM now_playing INNER JOIN movie ON now_playing.movie_id = movie.id ORDER BY movie.popularity DESC")
     fun getNowPlayingMovies(): List<MovieEntity>
 
     @Query("DELETE FROM now_playing")

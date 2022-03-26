@@ -3,7 +3,6 @@ package com.practice.movidb.ui.explore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.practice.movidb.adapter.MovieAdapter
 import com.practice.movidb.common.BaseResult
 import com.practice.movidb.common.BaseViewModel
 import com.practice.movidb.network.common.Result
@@ -20,17 +19,16 @@ class ExploreViewModel @Inject constructor(private val repository: MovieReposito
 
     private val popularMoviesUseCase = PopularMoviesUseCase(repository, Dispatchers.IO)
     private val nowPlayingUseCase = NowPlayingUseCase(repository, Dispatchers.IO)
-    private val model = MovieModel(this)
-    private val popularMovieAdapter = MovieAdapter(model)
-    private val nowPlayingAdapter = MovieAdapter(model)
+    private val popularMovieModel = MovieModel(this)
+    private val nowPlayingModel = MovieModel(this)
 
     fun init() {
         fetchPopularMovies()
         fetchNowPlayingMovies()
     }
 
-    fun getPopularMoviesAdapter() = popularMovieAdapter
-    fun getNowPlayingAdapter() = nowPlayingAdapter
+    fun getPopularMoviesAdapter() = popularMovieModel.adapter
+    fun getNowPlayingAdapter() = nowPlayingModel.adapter
 
     private fun fetchPopularMovies() {
         viewModelScope.launch {
@@ -51,7 +49,7 @@ class ExploreViewModel @Inject constructor(private val repository: MovieReposito
     private fun processPopularMovies(result: BaseResult<MovieList>) {
         when (result) {
             is Result.Success -> {
-                popularMovieAdapter.submitList(result.mData?.results) //TODO improve
+                popularMovieModel.populateList(result.data?.results) //TODO improve
             }
         }
     }
@@ -59,7 +57,7 @@ class ExploreViewModel @Inject constructor(private val repository: MovieReposito
     private fun processNowPlayingMovies(result: BaseResult<MovieList>) {
         when (result) {
             is Result.Success -> {
-                nowPlayingAdapter.submitList(result.mData?.results) //TODO improve
+                nowPlayingModel.populateList(result.data?.results) //TODO improve
             }
         }
     }

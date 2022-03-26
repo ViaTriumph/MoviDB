@@ -2,7 +2,7 @@ package com.practice.movidb.shared.data.search
 
 import com.practice.movidb.shared.common.DataMapperUtil
 import com.practice.movidb.shared.data.db.AppDatabase
-import com.practice.movidb.shared.data.db.GenreList
+import com.practice.movidb.shared.data.db.IntList
 import com.practice.movidb.shared.data.db.MovieEntity
 import com.practice.movidb.shared.data.movie.Movie
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class SearchDataSourceImpl @Inject constructor(private val appDatabase: AppDatab
             MovieEntity(
                 rowId = 0,
                 adult = it.adult,
-                genreIds = GenreList(DataMapperUtil.convertToNonNull(it.genreIds)),
+                genreIds = IntList(DataMapperUtil.convertToNonNull(it.genreIds)),
                 id = it.id,
                 overview = it.overview,
                 posterPath = it.posterPath,

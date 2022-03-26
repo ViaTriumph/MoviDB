@@ -11,7 +11,7 @@ interface SearchFtsDao {
     @Query(
         """
         SELECT DISTINCT * FROM movie 
-        INNER JOIN movie_fts ON movie.movie_id = movie_fts.movie_id
+        INNER JOIN movie_fts ON movie.id = movie_fts.id
         WHERE movie_fts MATCH :query ORDER BY popularity DESC
     """
     )

@@ -15,7 +15,7 @@ interface PopularMoviesDao {
     /**
      * Get movies from central table [MovieEntity] which are present in popular list
      */
-    @Query("SELECT DISTINCT * FROM popular_movies INNER JOIN movie ON popular_movies.movie_id = movie.movie_id ORDER BY movie.popularity")
+    @Query("SELECT DISTINCT * FROM popular_movies INNER JOIN movie ON popular_movies.movie_id = movie.id ORDER BY movie.popularity DESC LIMIT 20")
     fun getPopularMovies(): List<MovieEntity>
 
     @Query("DELETE FROM popular_movies")

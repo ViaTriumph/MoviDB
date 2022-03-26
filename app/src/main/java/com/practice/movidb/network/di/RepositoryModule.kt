@@ -66,12 +66,14 @@ class RepositoryModule {
     @Singleton
     fun providesMovieDetailsRepository(
         movieDetailService: MovieDetailService,
-        @IODispatcher coroutineDispatcher: CoroutineDispatcher,
-        movieDetailDataSource: MovieDetailDataSource
+        movieDetailDataSource: MovieDetailDataSource,
+        movieDataSource: MovieDataSource,
+        @IODispatcher coroutineDispatcher: CoroutineDispatcher
     ): MovieDetailsRepository {
         return MovieDetailsRepositoryImpl(
             movieDetailService,
             movieDetailDataSource,
+            movieDataSource,
             coroutineDispatcher
         )
     }

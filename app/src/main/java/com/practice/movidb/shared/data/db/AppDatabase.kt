@@ -9,7 +9,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.gson.Gson
 
 @Database(
-    entities = [MovieEntity::class, PopularMoviesEntity::class, NowPlayingMovesEntity::class, MovieFtsEntity::class, MovieDetailEntity::class],
+    entities = [MovieEntity::class,
+        PopularMoviesEntity::class,
+        NowPlayingMovesEntity::class,
+        MovieFtsEntity::class,
+        SimilarMovieEntity::class,
+        MovieDetailEntity::class],
     version = 1,
     exportSchema = false
 )
