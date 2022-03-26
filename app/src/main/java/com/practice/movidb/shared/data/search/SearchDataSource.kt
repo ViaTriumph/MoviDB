@@ -1,4 +1,4 @@
-package com.practice.movidb.shared.data.search.datasource
+package com.practice.movidb.shared.data.search
 
 import com.practice.movidb.shared.common.DataMapperUtil
 import com.practice.movidb.shared.data.db.AppDatabase

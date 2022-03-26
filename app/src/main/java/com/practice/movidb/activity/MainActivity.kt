@@ -8,6 +8,7 @@ import com.practice.movidb.R
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.databinding.ActivityMainBinding
 import com.practice.movidb.di.BaseComponent
+import com.practice.movidb.ui.detail.MovieDetailFragment
 import com.practice.movidb.ui.explore.ExploreFragment
 import com.practice.movidb.ui.search.SearchFragment
 
@@ -25,21 +26,27 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        addFragment(ExploreFragment.TAG)
+        addFragment(ExploreFragment.TAG, null)
     }
 
-    fun addFragment(tag: String) {
-        val fragment = getFragmentInstance(tag)
+    //TODO move to navigator
+    fun addFragment(tag: String, data: Any?) {
+        val fragment = getFragmentInstance(tag, data)
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(binding.fragmentContainerView.id, fragment)
         fragmentTransaction.addToBackStack(tag)
         fragmentTransaction.commitAllowingStateLoss()
     }
 
-    private fun getFragmentInstance(tag: String): Fragment {
+    private fun getFragmentInstance(tag: String, data: Any?): Fragment {
         return when (tag) {
             SearchFragment.TAG -> SearchFragment.newInstance()
             ExploreFragment.TAG -> ExploreFragment.newInstance()
+            MovieDetailFragment.TAG -> if (data is Int)
+                MovieDetailFragment.newInstance(data)
+            else MovieDetailFragment.newInstance(
+                0
+            )
             else -> throw IllegalArgumentException("Unknown tag:$tag")
         }
     }

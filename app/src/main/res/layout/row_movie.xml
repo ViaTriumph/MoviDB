@@ -9,11 +9,16 @@
             name="obj"
             type="com.practice.movidb.shared.domain.movie.Movie" />
 
+        <variable
+            name="model"
+            type="com.practice.movidb.ui.explore.MovieModel" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> model.onItemClick(obj.id)}"
         android:gravity="center"
         android:orientation="vertical">
 

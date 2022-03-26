@@ -6,25 +6,25 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.google.gson.Gson
 
 @Database(
-    entities = [MovieEntity::class, PopularMoviesEntity::class, NowPlayingMovesEntity::class, MovieFtsEntity::class],
+    entities = [MovieEntity::class, PopularMoviesEntity::class, NowPlayingMovesEntity::class, MovieFtsEntity::class, MovieDetailEntity::class],
     version = 1,
     exportSchema = false
 )
-@TypeConverters(GenreListConverter::class)
+@TypeConverters(value = [GenreListConverter::class, GenreConverter::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun searchFtsDao(): SearchFtsDao
     abstract fun popularMoviesDao(): PopularMoviesDao
     abstract fun nowPlayingMoviesDao(): NowPlayingDao
     abstract fun movieDao(): MovieDao
+    abstract fun movieDetailDao(): MovieDetailDao
 
     companion object {
         const val TAG = "app_data_base"
 
-        //TODO if db is injected into graph with single instance , why volatile?
-
-        fun createDb(context: Context): AppDatabase {
+        fun createDb(context: Context, gson: Gson): AppDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
@@ -36,6 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
                         db.execSQL("INSERT INTO movie_fts(movie_fts) VALUES ('rebuild')") //TODO what does this exactly do?
                     }
                 })
+                .addTypeConverter(GenreConverter(gson))
                 .fallbackToDestructiveMigration()
                 .build()
         }

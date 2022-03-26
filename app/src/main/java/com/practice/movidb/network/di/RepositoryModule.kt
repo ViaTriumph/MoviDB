@@ -6,10 +6,14 @@ import com.practice.movidb.network.movie.service.MovieService
 import com.practice.movidb.network.search.data.SearchDataRepository
 import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.service.SearchService
+import com.practice.movidb.shared.data.details.MovieDetailDataSource
+import com.practice.movidb.shared.data.details.MovieDetailService
+import com.practice.movidb.shared.data.details.MovieDetailsRepositoryImpl
 import com.practice.movidb.shared.data.movie.MovieDataRepository
 import com.practice.movidb.shared.data.movie.MovieDataSource
-import com.practice.movidb.shared.data.search.datasource.SearchDataSource
+import com.practice.movidb.shared.data.search.SearchDataSource
 import com.practice.movidb.shared.di.IODispatcher
+import com.practice.movidb.shared.domain.details.MovieDetailsRepository
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -33,7 +37,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesMovieRepositoryModule(
+    fun providesMovieDetailService(retrofit: Retrofit): MovieDetailService {
+        return BaseNetwork.createService(retrofit, MovieDetailService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesMovieRepository(
         movieService: MovieService,
         @IODispatcher coroutineDispatcher: CoroutineDispatcher,
         movieDataSource: MovieDataSource
@@ -43,11 +53,26 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesSearchRepositoryModule(
+    fun providesSearchRepository(
         searchService: SearchService,
         @IODispatcher coroutineDispatcher: CoroutineDispatcher,
         searchDataSource: SearchDataSource
     ): SearchRepository {
         return SearchDataRepository(searchService, coroutineDispatcher, searchDataSource)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesMovieDetailsRepository(
+        movieDetailService: MovieDetailService,
+        @IODispatcher coroutineDispatcher: CoroutineDispatcher,
+        movieDetailDataSource: MovieDetailDataSource
+    ): MovieDetailsRepository {
+        return MovieDetailsRepositoryImpl(
+            movieDetailService,
+            movieDetailDataSource,
+            coroutineDispatcher
+        )
     }
 }

@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.movidb.databinding.RowMovieBinding
 import com.practice.movidb.shared.domain.movie.Movie
+import com.practice.movidb.ui.explore.MovieModel
 
-class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
+class MovieAdapter(private val model: MovieModel) :
+    ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallback()) {
 
     class MovieViewHolder(private val bindingView: RowMovieBinding) :
         RecyclerView.ViewHolder(bindingView.root) {
-        fun bind(obj: Movie) {
+        fun bind(obj: Movie, model: MovieModel) {
             bindingView.obj = obj
+            bindingView.model = model
             bindingView.executePendingBindings()
         }
 
@@ -41,6 +44,6 @@ class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieCallb
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), model)
     }
 }

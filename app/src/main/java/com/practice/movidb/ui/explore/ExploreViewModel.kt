@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.practice.movidb.adapter.MovieAdapter
 import com.practice.movidb.common.BaseResult
+import com.practice.movidb.common.BaseViewModel
 import com.practice.movidb.network.common.Result
 import com.practice.movidb.network.movie.domain.MovieRepository
 import com.practice.movidb.shared.domain.explore.NowPlayingUseCase
@@ -14,12 +15,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ExploreViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
+class ExploreViewModel @Inject constructor(private val repository: MovieRepository) :
+    BaseViewModel() {
 
     private val popularMoviesUseCase = PopularMoviesUseCase(repository, Dispatchers.IO)
     private val nowPlayingUseCase = NowPlayingUseCase(repository, Dispatchers.IO)
-    private val popularMovieAdapter = MovieAdapter()
-    private val nowPlayingAdapter = MovieAdapter()
+    private val model = MovieModel(this)
+    private val popularMovieAdapter = MovieAdapter(model)
+    private val nowPlayingAdapter = MovieAdapter(model)
 
     fun init() {
         fetchPopularMovies()

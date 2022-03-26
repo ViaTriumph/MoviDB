@@ -9,8 +9,7 @@ import com.practice.movidb.network.common.toDomain
 import com.practice.movidb.network.search.domain.SearchRepository
 import com.practice.movidb.network.search.service.SearchService
 import com.practice.movidb.shared.common.DataMapperUtil
-import com.practice.movidb.shared.data.search.datasource.SearchDataSource
-import com.practice.movidb.shared.di.IODispatcher
+import com.practice.movidb.shared.data.search.SearchDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -21,7 +20,7 @@ import com.practice.movidb.shared.domain.movie.MovieList as DomainMovieList
 
 internal class SearchDataRepository @Inject constructor(
     private val searchService: SearchService,
-    @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
+    private val coroutineDispatcher: CoroutineDispatcher,
     private val dataSource: SearchDataSource
 ) : BaseRepository(), SearchRepository {
 

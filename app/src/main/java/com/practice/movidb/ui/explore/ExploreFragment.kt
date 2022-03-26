@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.activity.MainActivity
 import com.practice.movidb.databinding.FragmentExploreBinding
 import com.practice.movidb.network.movie.domain.MovieRepository
+import com.practice.movidb.ui.detail.MovieDetailFragment
 import com.practice.movidb.ui.search.SearchFragment
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ExploreFragment : Fragment() { //TODO searchview as in toolbar menu
@@ -52,12 +55,29 @@ class ExploreFragment : Fragment() { //TODO searchview as in toolbar menu
         exploreViewModel.init()
         binding.explorePopularMoviesRv.adapter = exploreViewModel.getPopularMoviesAdapter()
         binding.exploreNowPlayingRv.adapter = exploreViewModel.getNowPlayingAdapter()
+
+        initListeners()
         onSearchClick() //TODO improve
     }
 
     private fun onSearchClick() {
         binding.exploreSearchView.setOnClickListener {
-            (requireActivity() as MainActivity).addFragment(SearchFragment.TAG)
+            (requireActivity() as MainActivity).addFragment(SearchFragment.TAG, null)
+        }
+    }
+
+    private fun initListeners() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            exploreViewModel.componentFlow.collect { component ->
+                when (component.name) {
+                    MovieDetailFragment.TAG -> {
+                        (requireActivity() as MainActivity).addFragment(
+                            component.name,
+                            component.data
+                        )
+                    }
+                }
+            }
         }
     }
 
