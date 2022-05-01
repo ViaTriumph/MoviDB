@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.databinding.FragmentSearchBinding
-import com.practice.movidb.network.search.domain.SearchRepository
+import com.practice.shared.domain.search.SearchRepository
+import com.practice.shared.domain.search.SearchUseCase
 import javax.inject.Inject
 
 class SearchFragment : Fragment() {
@@ -17,10 +18,10 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     @Inject
-    lateinit var repository: SearchRepository
+    lateinit var searchUseCase: SearchUseCase
 
     private val searchViewModel: SearchViewModel by lazy {
-        ViewModelProvider(this, SearchViewModelFactory(repository))[SearchViewModel::class.java]
+        ViewModelProvider(this, SearchViewModelFactory(searchUseCase))[SearchViewModel::class.java]
     }
 
     override fun onAttach(context: Context) {
@@ -49,7 +50,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun initSearchObservables() {
-        searchViewModel.observeSearchInput(binding.searchSearchView)
+        searchViewModel.observeSearchInput(binding.searchSearchView) // todo remove observer
     }
 
     private fun handleBack() { //TODO move to menu

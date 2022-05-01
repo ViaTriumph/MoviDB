@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.databinding.FragmentDetailsBinding
-import com.practice.movidb.shared.domain.details.MovieDetailsRepository
+import com.practice.shared.domain.details.DetailsUseCase
+import com.practice.shared.domain.details.MovieDetailsRepository
+import com.practice.shared.domain.details.SimilarMoviesUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,10 +21,13 @@ class MovieDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
 
     @Inject
-    lateinit var repository: MovieDetailsRepository
+    lateinit var detailsUseCase: DetailsUseCase
+
+    @Inject
+    lateinit var similarMoviesUseCase: SimilarMoviesUseCase
 
     private val detailVM: MovieDetailViewModel by lazy {
-        ViewModelProvider(this, MovieDetailVMFactory(repository))[MovieDetailViewModel::class.java]
+        ViewModelProvider(this, MovieDetailVMFactory(detailsUseCase, similarMoviesUseCase))[MovieDetailViewModel::class.java]
     }
 
     override fun onAttach(context: Context) {

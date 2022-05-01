@@ -1,9 +1,9 @@
 package com.practice.movidb.ui.explore
 
-import com.practice.movidb.adapter.MovieAdapter
+import com.practice.movidb.ui.movie.MovieAdapter
 import com.practice.movidb.common.ViewModelComm
-import com.practice.movidb.shared.domain.movie.Movie
 import com.practice.movidb.ui.detail.MovieDetailFragment
+import com.practice.shared.domain.movie.Movie
 
 //TODO rename
 class MovieModel(private val comm: ViewModelComm) {
@@ -33,5 +33,7 @@ class MovieModel(private val comm: ViewModelComm) {
 data class MovieItemUI(
     val id: Int = 0,
     val title: String = "",
-    val posterUrl: String = ""
+    val posterUrl: String = "",
+    val genres: String = "",
+    val voteAverage: String = ""
 )

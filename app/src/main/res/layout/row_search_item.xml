@@ -7,7 +7,7 @@
 
         <variable
             name="obj"
-            type="com.practice.movidb.shared.domain.movie.Movie" />
+            type="com.practice.movidb.ui.explore.MovieItemUI" />
 
     </data>
 
@@ -22,7 +22,7 @@
             android:layout_height="130dp"
             android:background="@drawable/bg_rounded"
             android:contentDescription="@string/movie_poster_cd"
-            app:loadUrl="@{`https://image.tmdb.org/t/p/w500` + obj.posterPath}"
+            app:loadUrl="@{`https://image.tmdb.org/t/p/w500` + obj.posterUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_play_filled" />
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{obj.genreIds.toString()}"
+            android:text="@{obj.genres}"
             app:layout_constraintStart_toStartOf="@id/search_row_movie_title"
             app:layout_constraintTop_toBottomOf="@id/search_row_movie_title"
             tools:text="Fantasy * Action" />

@@ -2,6 +2,10 @@ object Libs {
 
     const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib:" + Version.KOTLIN
 
+    //Gradle
+    const val GRADLE = "com.android.tools.build:gradle:" + Version.GRADLE
+    const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:" + Version.KT_GRADLE_PLUGIN
+
     const val CORE_KTX = "androidx.core:core-ktx:" + Version.CORE
     const val ACTIVITY = "androidx.activity:activity-ktx:" + Version.ACTIVITY
 
@@ -12,20 +16,23 @@ object Libs {
     const val FRAGMENT = "androidx.fragment:fragment:" + Version.FRAGMENT
     const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:" + Version.FRAGMENT
 
-    const val APPCOMPAT = "androidx.appcompat:appcompat:1.4.1" + Version.APPCOMPAT
+    const val APPCOMPAT = "androidx.appcompat:appcompat:" + Version.APPCOMPAT
 
     const val CONSTRAINT_LAYOUT =
         "androidx.constraintlayout:constraintlayout:" + Version.CONSTRAINT_LAYOUT
 
     // Testing
-    const val JUNIT = "junit:junit:4.+" + Version.JUNIT
-    const val EXT_JUNIT = "androidx..ext:junit:1.1.3" + Version.JUNIT
-    const val EXPRESSO_CORE = "androidx..espresso:espresso-core:3.4.0" + Version.JUNIT
+    const val JUNIT = "junit:junit:" + Version.JUNIT
+    const val ANDROIDX_JUNIT = "androidx.test.ext:junit:" + Version.ANDROIDX_JUNIT
+    const val EXPRESSO_CORE = "androidx.test.espresso:espresso-core:" + Version.ESPRESSO
     const val CORE_TEST = "androidx.test:core:" + Version.CORE_TESTING
+    const val TEST_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 
     // Dependency injection
     const val DAGGER = "com.google.dagger:dagger:" + Version.DAGGER
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:" + Version.DAGGER
+
+    const val GSON = "com.google.code.gson:gson:" + Version.GSON
 
     // Networking
     const val RETROFIT = "com.squareup.retrofit2:retrofit:" + Version.RETROFIT

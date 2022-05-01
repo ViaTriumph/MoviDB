@@ -3,35 +3,27 @@ package com.practice.movidb.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.practice.movidb.common.BaseResult
 import com.practice.movidb.common.BaseViewModel
-import com.practice.movidb.network.common.Result
-import com.practice.movidb.shared.domain.details.DetailsUseCase
-import com.practice.movidb.shared.domain.details.MovieDetail
-import com.practice.movidb.shared.domain.details.MovieDetailsRepository
-import com.practice.movidb.shared.domain.details.SimilarMoviesUseCase
-import com.practice.movidb.shared.domain.movie.Movie
-import com.practice.movidb.shared.domain.movie.MovieList
 import com.practice.movidb.ui.explore.MovieModel
+import com.practice.shared.data.network.BaseResult
+import com.practice.shared.data.network.Result
+import com.practice.shared.domain.details.DetailsUseCase
+import com.practice.shared.domain.details.MovieDetail
+import com.practice.shared.domain.details.MovieDetailsRepository
+import com.practice.shared.domain.details.SimilarMoviesUseCase
+import com.practice.shared.domain.movie.Movie
+import com.practice.shared.domain.movie.MovieList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MovieDetailViewModel @Inject constructor(private val repository: MovieDetailsRepository) :
-    BaseViewModel() {
+class MovieDetailViewModel @Inject constructor(
+    private val detailsUseCase: DetailsUseCase,
+    private val similarMoviesUseCase: SimilarMoviesUseCase
+    ): BaseViewModel() {
 
     val detailModel = MovieDetailModel()
     val similarMovieModel = MovieModel(this)
-
-    private val detailsUseCase = DetailsUseCase(
-        Dispatchers.IO,
-        repository
-    )
-
-    private val similarMoviesUseCase = SimilarMoviesUseCase(
-        Dispatchers.IO,
-        repository
-    )
 
     fun init(id: Int) {
         viewModelScope.launch {
@@ -71,11 +63,13 @@ class MovieDetailViewModel @Inject constructor(private val repository: MovieDeta
 
 
 @Suppress("UNCHECKED_CAST")
-class MovieDetailVMFactory(private val repository: MovieDetailsRepository) :
-    ViewModelProvider.NewInstanceFactory() {
+class MovieDetailVMFactory(
+    private val detailsUseCase: DetailsUseCase,
+    private val similarMoviesUseCase: SimilarMoviesUseCase
+    ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MovieDetailViewModel::class.java)) {
-            return MovieDetailViewModel(repository) as T
+            return MovieDetailViewModel(detailsUseCase, similarMoviesUseCase) as T
         }
         throw IllegalArgumentException("Unknown viewModel: " + modelClass.name)
     }

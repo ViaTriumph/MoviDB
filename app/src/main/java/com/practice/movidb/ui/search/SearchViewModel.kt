@@ -4,24 +4,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.practice.movidb.adapter.SearchMovieAdapter
-import com.practice.movidb.common.BaseResult
-import com.practice.movidb.network.common.Result
-import com.practice.movidb.network.search.domain.SearchRepository
-import com.practice.movidb.shared.domain.movie.Movie
-import com.practice.movidb.shared.domain.movie.MovieList
-import com.practice.movidb.shared.domain.search.SearchUseCase
-import com.practice.movidb.shared.domain.search.SearchUseCaseParams
+import com.practice.movidb.ui.UIUtils
+import com.practice.shared.data.network.BaseResult
+import com.practice.shared.domain.movie.Movie
+import com.practice.shared.domain.movie.MovieList
+import com.practice.shared.domain.search.SearchUseCase
+import com.practice.shared.domain.search.SearchUseCaseParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewModel() {
-
-    //TODO inject
-    private val searchUseCase = SearchUseCase(repository, Dispatchers.IO)
+class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
 
     private val searchAdapter = SearchMovieAdapter()
 
@@ -55,9 +50,9 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
 
     private fun processSearchResult(result: BaseResult<MovieList>) {
         when (result) {
-            is Result.Success -> {
+            is com.practice.shared.data.network.Result.Success -> {
                 val list: List<Movie> = result.data?.results ?: emptyList()
-                searchAdapter.submitList(list)
+                searchAdapter.submitList(UIUtils.convertToPresentation(list))
             }
         }
     }
@@ -75,11 +70,11 @@ class SearchViewModel @Inject constructor(repository: SearchRepository) : ViewMo
 }
 
 @Suppress("UNCHECKED_CAST")
-class SearchViewModelFactory(private val repository: SearchRepository) :
+class SearchViewModelFactory(private val searchUseCase: SearchUseCase) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            return SearchViewModel(repository) as T
+            return SearchViewModel(searchUseCase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

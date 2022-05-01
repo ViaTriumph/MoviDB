@@ -2,8 +2,8 @@ package com.practice.movidb.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.practice.movidb.shared.domain.details.MovieDetail
 import com.practice.movidb.ui.UIUtils
+import com.practice.shared.domain.details.MovieDetail
 
 /**
  * image

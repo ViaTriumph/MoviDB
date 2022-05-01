@@ -11,9 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import com.practice.movidb.ShowApplication
 import com.practice.movidb.activity.MainActivity
 import com.practice.movidb.databinding.FragmentExploreBinding
-import com.practice.movidb.network.movie.domain.MovieRepository
+import com.practice.shared.domain.movie.MovieRepository
 import com.practice.movidb.ui.detail.MovieDetailFragment
 import com.practice.movidb.ui.search.SearchFragment
+import com.practice.shared.domain.explore.NowPlayingUseCase
+import com.practice.shared.domain.explore.PopularMoviesUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,12 +24,15 @@ class ExploreFragment : Fragment() { //TODO searchview as in toolbar menu
     private lateinit var binding: FragmentExploreBinding
 
     @Inject
-    lateinit var movieRepository: MovieRepository
+    lateinit var popularMoviesUseCase: PopularMoviesUseCase
+
+    @Inject
+    lateinit var nowPlayingUseCase: NowPlayingUseCase
 
     private val exploreViewModel: ExploreViewModel by lazy {
         ViewModelProvider(
             this,
-            ExploreViewModelFactory(movieRepository)
+            ExploreViewModelFactory(popularMoviesUseCase, nowPlayingUseCase)
         )[ExploreViewModel::class.java]
     }
 
