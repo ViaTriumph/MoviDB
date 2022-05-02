@@ -1,5 +1,5 @@
 # MoviDB
-Movie db application
+Movie db application. check for [roadmap](https://github.com/ViaTriumph/MoviDB/wiki)
 
 #### Requirements
 
