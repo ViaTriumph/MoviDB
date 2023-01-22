@@ -1,5 +1,8 @@
 package com.practice.movidb.ui.search
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -91,6 +94,25 @@ private fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
 
         override fun onQueryTextSubmit(newText: String?): Boolean {
             return true
+        }
+    })
+
+    return query
+}
+
+//TODO move this to ext function
+private fun EditText.getQueryTextChangeStateFlow(): StateFlow<String> {
+    val query = MutableStateFlow("")
+
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            query.value = s.toString()
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
     })
 
